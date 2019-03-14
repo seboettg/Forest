@@ -9,6 +9,7 @@ declare(strict_types=1);
 namespace Seboettg\Forest\BinaryTree;
 
 use Countable;
+use Seboettg\Collection\ArrayList;
 use Seboettg\Collection\ArrayList\ArrayListInterface;
 use Seboettg\Collection\Comparable\Comparable;
 use Seboettg\Collection\Queue;
@@ -17,7 +18,7 @@ use Seboettg\Collection\Queue;
  * Class BinaryTree
  * A binary tree is a recursive data structure where each node can have 2 children at most.
  *
- * @package Seboettg\Trees\BinaryTree
+ * @package Seboettg\Forest\BinaryTree
  */
 class BinaryTree implements Countable
 {
@@ -54,6 +55,11 @@ class BinaryTree implements Countable
      */
     protected $elementCount = 0;
 
+    /**
+     * @param Comparable $value
+     *
+     * @return TreeNode|null
+     */
     public function search(Comparable $value): ?TreeNode
     {
         return $this->searchRecursive($value, $this->root);
@@ -81,7 +87,7 @@ class BinaryTree implements Countable
      * @param Comparable $value
      * @return BinaryTree
      */
-    public function insert(Comparable $value)
+    public function insert(Comparable $value): BinaryTree
     {
         ++$this->elementCount;
         if ($this->root === null) {
@@ -97,7 +103,7 @@ class BinaryTree implements Countable
      * @param Comparable $value
      * @return void
      */
-    protected function insertRecursive(TreeNode $node, Comparable $value)
+    protected function insertRecursive(TreeNode $node, Comparable $value): void
     {
         if ($node->getItem()->compareTo($value) >= 0) {
             if ($node->getLeft() === null) {
@@ -115,33 +121,35 @@ class BinaryTree implements Countable
     }
 
     /**
-     * @param ArrayListInterface $target
      * @param int $orderStrategy
+     * @return ArrayListInterface
      */
-    public function toArrayList(ArrayListInterface &$target, int $orderStrategy = self::TRAVERSE_IN_ORDER)
+    public function toArrayList(int $orderStrategy = self::TRAVERSE_IN_ORDER): ArrayListInterface
     {
+        $result = new ArrayList();
         switch ($orderStrategy) {
             case self::TRAVERSE_IN_ORDER:
-                $this->traverseInOrder($target, $this->root);
+                $this->traverseInOrder($result, $this->root);
                 break;
             case self::TRAVERSE_PRE_ORDER:
-                $this->traversePreOrder($target, $this->root);
+                $this->traversePreOrder($result, $this->root);
                 break;
             case self::TRAVERSE_POST_ORDER:
-                $this->traversePostOrder($target, $this->root);
+                $this->traversePostOrder($result, $this->root);
                 break;
             case self::TRAVERSE_LEVEL_ORDER:
                 $queue = new Queue();
                 $queue->enqueue($this->root);
-                $this->traverseLevelOrder($target, $queue);
+                $this->traverseLevelOrder($result, $queue);
         }
+        return $result;
     }
 
     /**
      * @param ArrayListInterface $target
      * @param TreeNode|null $node
      */
-    protected function traverseInOrder(ArrayListInterface &$target, TreeNode $node = null)
+    protected function traverseInOrder(ArrayListInterface &$target, TreeNode $node = null): void
     {
         if ($node !== null) {
             $this->traverseInOrder($target, $node->getLeft());
@@ -154,7 +162,7 @@ class BinaryTree implements Countable
      * @param ArrayListInterface $target
      * @param TreeNode|null $node
      */
-    protected function traversePreOrder(ArrayListInterface &$target, TreeNode $node = null)
+    protected function traversePreOrder(ArrayListInterface &$target, TreeNode $node = null): void
     {
         if ($node !== null) {
             $target->append($node->getItem());
@@ -167,7 +175,7 @@ class BinaryTree implements Countable
      * @param ArrayListInterface $target
      * @param TreeNode|null $node
      */
-    protected function traversePostOrder(ArrayListInterface &$target, TreeNode $node = null)
+    protected function traversePostOrder(ArrayListInterface &$target, TreeNode $node = null): void
     {
         if ($node !== null) {
             $this->traversePostOrder($target, $node->getLeft());
@@ -180,7 +188,7 @@ class BinaryTree implements Countable
      * @param ArrayListInterface $target
      * @param Queue $queue
      */
-    protected function traverseLevelOrder(ArrayListInterface &$target, Queue $queue)
+    protected function traverseLevelOrder(ArrayListInterface &$target, Queue $queue): void
     {
         while ($queue->count() > 0) {
             /** @var TreeNode $node */
@@ -198,7 +206,7 @@ class BinaryTree implements Countable
     /**
      * @return int
      */
-    public function count()
+    public function count(): int
     {
         return $this->elementCount;
     }

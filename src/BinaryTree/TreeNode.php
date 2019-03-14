@@ -10,6 +10,10 @@ namespace Seboettg\Forest\BinaryTree;
 
 use Seboettg\Collection\Comparable\Comparable;
 
+/**
+ * Class TreeNode
+ * @package Seboettg\Forest\BinaryTree
+ */
 class TreeNode
 {
     /**
@@ -35,15 +39,16 @@ class TreeNode
     /**
      * @return TreeNode
      */
-    public function getLeft(): ?TreeNode
+    final public function getLeft(): ?TreeNode
     {
         return $this->left;
     }
 
     /**
      * @param TreeNode $left
+     * @return void
      */
-    public function setLeft(TreeNode $left)
+    final public function setLeft(TreeNode $left): void
     {
         $this->left = $left;
     }
@@ -51,15 +56,16 @@ class TreeNode
     /**
      * @return TreeNode
      */
-    public function getRight(): ?TreeNode
+    final public function getRight(): ?TreeNode
     {
         return $this->right;
     }
 
     /**
      * @param TreeNode $right
+     * @return void
      */
-    public function setRight(TreeNode $right)
+    final public function setRight(TreeNode $right): void
     {
         $this->right = $right;
     }
@@ -67,7 +73,7 @@ class TreeNode
     /**
      * @return mixed
      */
-    public function getItem(): Comparable
+    final public function getItem(): Comparable
     {
         return $this->item;
     }
@@ -75,8 +81,9 @@ class TreeNode
     /**
      * @codeCoverageIgnore
      * @param mixed $item
+     * @return void
      */
-    public function setItem(Comparable $item)
+    final public function setItem(Comparable $item): void
     {
         $this->item = $item;
     }

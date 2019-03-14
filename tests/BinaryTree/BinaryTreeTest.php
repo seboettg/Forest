@@ -8,7 +8,6 @@
 namespace Seboettg\Forest\Test\BinaryTree;
 
 use PHPUnit\Framework\TestCase;
-use Seboettg\Collection\ArrayList;
 use Seboettg\Collection\Comparable\Comparable;
 use Seboettg\Forest\BinaryTree\BinaryTree;
 
@@ -112,8 +111,7 @@ class BinaryTreeTest extends TestCase
     public function testToArrayList($insertItems, $orderStrategy, $expectedOrder)
     {
         $binaryTree = $this->fillBinaryTree($insertItems);
-        $stringItemList = new ArrayList();
-        $binaryTree->toArrayList($stringItemList, $orderStrategy);
+        $stringItemList = $binaryTree->toArrayList($orderStrategy);
         for($i = 0; $i < $stringItemList->count(); ++$i) {
             /** @var StringItem $stringItem */
             $stringItem = $stringItemList->get($i);

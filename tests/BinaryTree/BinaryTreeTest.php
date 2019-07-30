@@ -10,6 +10,7 @@ namespace Seboettg\Forest\Test\BinaryTree;
 use PHPUnit\Framework\TestCase;
 use Seboettg\Collection\Comparable\Comparable;
 use Seboettg\Forest\BinaryTree\BinaryTree;
+use Seboettg\Forest\General\ItemInterface;
 
 class BinaryTreeTest extends TestCase
 {
@@ -134,7 +135,7 @@ class BinaryTreeTest extends TestCase
 
 }
 
-class Item implements Comparable {
+class Item implements ItemInterface {
     protected $value;
     public function __construct($value) { $this->value = $value; }
     public function getValue() { return $this->value; }
@@ -154,7 +155,7 @@ class StringItem extends Item {
         /** @var StringItem $b */
         return strcasecmp($this->getValue(), $b->getValue());
     }
-    public function __toString(){
+    public function __toString() {
         return (string)$this->value;
     }
 }

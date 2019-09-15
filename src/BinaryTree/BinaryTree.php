@@ -15,7 +15,9 @@ use Countable;
 use Seboettg\Collection\ArrayList;
 use Seboettg\Collection\ArrayList\ArrayListInterface;
 use Seboettg\Collection\Comparable\Comparable;
-use Seboettg\Collection\Queue;
+use Seboettg\Forest\AVLTree\AVLNodeInterface;
+use Seboettg\Forest\General\TreeInterface;
+use Seboettg\Forest\General\TreeNodeInterface;
 use Seboettg\Forest\Visitor\InOrderVisitor;
 use Seboettg\Forest\Visitor\LevelOrderVisitor;
 use Seboettg\Forest\Visitor\PostOrderVisitor;
@@ -27,33 +29,11 @@ use Seboettg\Forest\Visitor\PreOrderVisitor;
  *
  * @package Seboettg\Forest\BinaryTree
  */
-class BinaryTree implements Countable
+class BinaryTree implements Countable, TreeInterface
 {
-    /**
-     * The in-order traversal consists of first visiting the left sub-tree, then them self, and finally the
-     * right sub-tree.
-     */
-    public const TRAVERSE_IN_ORDER = 0;
 
     /**
-     * Pre-order traversal visits first them self, then the left subtree, and finally the right subtree.
-     */
-    public const TRAVERSE_PRE_ORDER = 1;
-
-    /**
-     * Post-order traversal visits the left subtree, the right subtree, and them self at the end.
-     */
-    public const TRAVERSE_POST_ORDER = 2;
-
-    /**
-     * Level-order is another strategy of traversal that visits all the nodes of a level before going to the next
-     * level. This kind of traversal is also called Breadth-first and visits all the levels of the tree starting from
-     * the root, and from left to right.
-     */
-    public const TRAVERSE_LEVEL_ORDER = 3;
-
-    /**
-     * @var TreeNode
+     * @var TreeNodeInterface|BinaryNodeInterface|AVLNodeInterface
      */
     protected $root;
 
@@ -65,19 +45,19 @@ class BinaryTree implements Countable
     /**
      * @param Comparable $value
      *
-     * @return TreeNode|null
+     * @return BinaryNode|null
      */
-    public function search(Comparable $value): ?TreeNode
+    public function search(Comparable $value): ?BinaryNode
     {
         return $this->searchRecursive($value, $this->root);
     }
 
     /**
-     * @param TreeNode $node
+     * @param BinaryNode $node
      * @param Comparable $value
-     * @return TreeNode
+     * @return BinaryNode
      */
-    protected function searchRecursive(Comparable $value, TreeNode $node = null): ?TreeNode
+    protected function searchRecursive(Comparable $value, BinaryNode $node = null): ?BinaryNode
     {
         if ($node === null) {
             return null;
@@ -92,13 +72,13 @@ class BinaryTree implements Countable
 
     /**
      * @param Comparable $value
-     * @return BinaryTree
+     * @return
      */
-    public function insert(Comparable $value): BinaryTree
+    public function insert(Comparable $value): TreeInterface
     {
         ++$this->elementCount;
         if ($this->root === null) {
-            $this->root = new TreeNode($value);
+            $this->root = new BinaryNode($value);
         } else {
             $this->insertRecursive($this->root, $value);
         }
@@ -106,21 +86,21 @@ class BinaryTree implements Countable
     }
 
     /**
-     * @param TreeNode $node
+     * @param BinaryNode $node
      * @param Comparable $value
      * @return void
      */
-    protected function insertRecursive(TreeNode $node, Comparable $value): void
+    private function insertRecursive(BinaryNode $node, Comparable $value): void
     {
         if ($node->getItem()->compareTo($value) >= 0) {
             if ($node->getLeft() === null) {
-                $node->setLeft(new TreeNode($value));
+                $node->setLeft(new BinaryNode($value));
             } else {
                 $this->insertRecursive($node->getLeft(), $value);
             }
         } else {
             if ($node->getRight() === null) {
-                $node->setRight(new TreeNode($value));
+                $node->setRight(new BinaryNode($value));
             } else {
                 $this->insertRecursive($node->getRight(), $value);
             }
@@ -148,64 +128,6 @@ class BinaryTree implements Countable
                 $result = $this->root->accept(new LevelOrderVisitor());
         }
         return $result;
-    }
-
-    /**
-     * @param ArrayListInterface $target
-     * @param TreeNode|null $node
-     */
-    protected function traverseInOrder(ArrayListInterface &$target, TreeNode $node = null): void
-    {
-        if ($node !== null) {
-            $this->traverseInOrder($target, $node->getLeft());
-            $target->append($node->getItem());
-            $this->traverseInOrder($target, $node->getRight());
-        }
-    }
-
-    /**
-     * @param ArrayListInterface $target
-     * @param TreeNode|null $node
-     */
-    protected function traversePreOrder(ArrayListInterface &$target, TreeNode $node = null): void
-    {
-        if ($node !== null) {
-            $target->append($node->getItem());
-            $this->traversePreOrder($target, $node->getLeft());
-            $this->traversePreOrder($target, $node->getRight());
-        }
-    }
-
-    /**
-     * @param ArrayListInterface $target
-     * @param TreeNode|null $node
-     */
-    protected function traversePostOrder(ArrayListInterface &$target, TreeNode $node = null): void
-    {
-        if ($node !== null) {
-            $this->traversePostOrder($target, $node->getLeft());
-            $this->traversePostOrder($target, $node->getRight());
-            $target->append($node->getItem());
-        }
-    }
-
-    /**
-     * @param ArrayListInterface $target
-     * @param Queue $queue
-     */
-    protected function traverseLevelOrder(ArrayListInterface &$target, Queue $queue): void
-    {
-        while ($queue->count() > 0) {
-            /** @var TreeNode $node */
-            $node = $queue->dequeue();
-            if ($node->getLeft() !== null) {
-                $queue->enqueue($node->getLeft());
-            }
-            if ($node->getRight() !== null) {
-                $queue->enqueue($node->getRight());
-            }
-            $target->append($node->getItem());
-        }
     }
 
     /**

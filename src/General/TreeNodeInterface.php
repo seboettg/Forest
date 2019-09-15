@@ -27,6 +27,16 @@ interface TreeNodeInterface
     public function getParent(): ?TreeNodeInterface;
 
     /**
+     * @param TreeNodeInterface $node
+     */
+    public function setParent(TreeNodeInterface $node): void;
+
+    /**
+     * @return int
+     */
+    public function getLevel(): int;
+
+    /**
      * @return ItemInterface
      */
     public function getItem(): ItemInterface;

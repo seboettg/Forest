@@ -47,7 +47,7 @@ class TreeNode implements TreeNodeInterface
         return $this->parent;
     }
 
-    private function setParent(TreeNode $parent): void
+    public function setParent(TreeNodeInterface $parent): void
     {
         $this->parent = $parent;
     }
@@ -70,13 +70,13 @@ class TreeNode implements TreeNodeInterface
     }
 
     /**
-     * @param mixed $identifier
+     * @param ItemInterface $item
      * @return TreeNode|null
      */
-    public function getChild($identifier): ?TreeNode
+    public function getChild(ItemInterface $item): ?TreeNodeInterface
     {
         foreach ($this->children as $child) {
-            if ($identifier === $child->getItem()->getIdentifier()) {
+            if ($child->getItem()->equals($item)) {
                 return $child;
             }
         }

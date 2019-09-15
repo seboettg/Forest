@@ -14,70 +14,59 @@ namespace Seboettg\Forest\BinaryTree;
 use Seboettg\Collection\ArrayList\ArrayListInterface;
 use Seboettg\Collection\Comparable\Comparable;
 use Seboettg\Forest\General\ItemInterface;
+use Seboettg\Forest\General\TreeNode;
 use Seboettg\Forest\General\TreeNodeInterface;
 use Seboettg\Forest\Visitor\VisitorInterface;
 
 /**
- * Class TreeNode
+ * Class BinaryNode
  * @package Seboettg\Forest\BinaryTree
  */
-class TreeNode implements BinaryTreeNodeInterface
+class BinaryNode extends TreeNode implements BinaryNodeInterface
 {
-    /**
-     * @var TreeNode[]
-     */
-    protected $children;
 
-    /**
-     * @var Comparable
-     */
-    protected $item;
-
-    /**
-     * @var TreeNode
-     */
-    protected $parent;
-
-    public function __construct(Comparable $item)
+    public function __construct(ItemInterface $item)
     {
-        $this->item = $item;
+        parent::__construct($item);
         $this->children["left"] = null;
         $this->children["right"] = null;
     }
 
     /**
-     * @return TreeNode
+     * @return BinaryNode
      */
-    final public function getLeft(): ?BinaryTreeNodeInterface
+    final public function getLeft(): ?BinaryNodeInterface
     {
         return $this->children["left"];
     }
 
     /**
-     * @param TreeNode $left
+     * @param BinaryNodeInterface $left
      * @return void
      */
-    final public function setLeft(TreeNode $left): void
+    final public function setLeft(?BinaryNodeInterface $left): void
     {
         $left->setParent($this);
         $this->children["left"] = $left;
     }
 
     /**
-     * @return TreeNode
+     * @return BinaryNode
      */
-    final public function getRight(): ?BinaryTreeNodeInterface
+    final public function getRight(): ?BinaryNodeInterface
     {
         return $this->children["right"];
     }
 
     /**
-     * @param TreeNode $right
+     * @param BinaryNodeInterface $right
      * @return void
      */
-    final public function setRight(TreeNode $right): void
+    final public function setRight(?BinaryNodeInterface $right): void
     {
-        $right->setParent($this);
+        if ($right !== null) {
+            $right->setParent($this);
+        }
         $this->children["right"] = $right;
     }
 
@@ -94,7 +83,7 @@ class TreeNode implements BinaryTreeNodeInterface
      * @param mixed $item
      * @return void
      */
-    final public function setItem(Comparable $item): void
+    final public function setItem(ItemInterface $item): void
     {
         $this->item = $item;
     }
@@ -118,9 +107,9 @@ class TreeNode implements BinaryTreeNodeInterface
     }
 
     /**
-     * @param TreeNode $parent
+     * @param TreeNodeInterface $parent
      */
-    private function setParent(TreeNode $parent)
+    public function setParent(TreeNodeInterface $parent): void
     {
         $this->parent = $parent;
     }

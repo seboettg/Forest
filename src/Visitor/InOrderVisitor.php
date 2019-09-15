@@ -14,7 +14,7 @@ namespace Seboettg\Forest\Visitor;
 use InvalidArgumentException;
 use Seboettg\Collection\ArrayList;
 use Seboettg\Collection\ArrayList\ArrayListInterface;
-use Seboettg\Forest\BinaryTree\BinaryTreeNodeInterface;
+use Seboettg\Forest\BinaryTree\BinaryNodeInterface;
 use Seboettg\Forest\General\TreeNodeInterface;
 
 class InOrderVisitor implements VisitorInterface
@@ -22,8 +22,8 @@ class InOrderVisitor implements VisitorInterface
 
     public function visit(TreeNodeInterface $node): ArrayListInterface
     {
-        if (!$node instanceof BinaryTreeNodeInterface) {
-            throw new InvalidArgumentException(BinaryTreeNodeInterface::class . " expected, got " . get_class($node) . ".");
+        if (!$node instanceof BinaryNodeInterface) {
+            throw new InvalidArgumentException(BinaryNodeInterface::class . " expected, got " . get_class($node) . ".");
         }
         $resultList = new ArrayList();
         if ($node !== null) {

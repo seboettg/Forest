@@ -25,7 +25,7 @@ use Seboettg\Forest\Visitor\VisitorInterface;
 class BinaryNode extends TreeNode implements BinaryNodeInterface
 {
 
-    public function __construct(ItemInterface $item)
+    public function __construct(Comparable $item)
     {
         parent::__construct($item);
         $this->children["left"] = null;
@@ -46,7 +46,9 @@ class BinaryNode extends TreeNode implements BinaryNodeInterface
      */
     final public function setLeft(?BinaryNodeInterface $left): void
     {
-        $left->setParent($this);
+        if ($left !== null) {
+            $left->setParent($this);
+        }
         $this->children["left"] = $left;
     }
 
@@ -73,7 +75,7 @@ class BinaryNode extends TreeNode implements BinaryNodeInterface
     /**
      * @return mixed
      */
-    final public function getItem(): ItemInterface
+    final public function getItem(): Comparable
     {
         return $this->item;
     }

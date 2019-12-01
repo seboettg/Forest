@@ -1,11 +1,12 @@
 <?php
+declare(strict_types=1);
 /*
  * Forest: StringItem.php
  * User: Sebastian Böttger <sebastian.boettger@thomascook.de>
  * created at 14.09.19, 17:10
  */
 
-namespace Seboettg\Forest\Test\Helper;
+namespace Seboettg\Forest\General;
 
 use Seboettg\Collection\Comparable\Comparable;
 

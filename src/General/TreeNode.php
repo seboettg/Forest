@@ -12,6 +12,7 @@ declare(strict_types=1);
 namespace Seboettg\Forest\General;
 
 use Seboettg\Collection\ArrayList\ArrayListInterface;
+use Seboettg\Collection\Comparable\Comparable;
 use Seboettg\Forest\Visitor\VisitorInterface;
 
 class TreeNode implements TreeNodeInterface
@@ -23,7 +24,7 @@ class TreeNode implements TreeNodeInterface
     protected $parent;
 
     /**
-     * @var TreeNode[]
+     * @var TreeNodeInterface[]
      */
     protected $children;
 
@@ -34,9 +35,9 @@ class TreeNode implements TreeNodeInterface
 
     /**
      * TreeNode constructor.
-     * @param ItemInterface $item
+     * @param Comparable $item
      */
-    public function __construct(ItemInterface $item)
+    public function __construct(Comparable $item)
     {
         $this->children = [];
         $this->item = $item;
@@ -53,16 +54,16 @@ class TreeNode implements TreeNodeInterface
     }
 
     /**
-     * @param TreeNode $child
+     * @param TreeNodeInterface $child
      */
-    public function addChild(TreeNode $child): void
+    public function addChild(TreeNodeInterface $child): void
     {
         $child->setParent($this);
         $this->children[] = $child;
     }
 
     /**
-     * @return TreeNode[]
+     * @return TreeNodeInterface[]
      */
     public function getChildren(): array
     {
@@ -70,23 +71,9 @@ class TreeNode implements TreeNodeInterface
     }
 
     /**
-     * @param ItemInterface $item
-     * @return TreeNode|null
-     */
-    public function getChild(ItemInterface $item): ?TreeNodeInterface
-    {
-        foreach ($this->children as $child) {
-            if ($child->getItem()->equals($item)) {
-                return $child;
-            }
-        }
-        return null;
-    }
-
-    /**
      * @return ItemInterface
      */
-    public function getItem(): ItemInterface
+    public function getItem(): ?Comparable
     {
         return $this->item;
     }
@@ -140,7 +127,8 @@ class TreeNode implements TreeNodeInterface
         foreach ($this->getChildren() as $child) {
             $heights[] = $child->getHeight();
         }
-        return max($heights) + 1;
+        $max = empty($heights) ? 0 : max($heights);
+        return $max + 1;
     }
 
     /**

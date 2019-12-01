@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /*
  * Forest: AVLNodeInterface.php
  * User: Sebastian Böttger <sebastian.boettger@thomascook.de>
@@ -6,7 +7,6 @@
  */
 
 namespace Seboettg\Forest\AVLTree;
-
 
 use Seboettg\Forest\BinaryTree\BinaryNodeInterface;
 

@@ -47,17 +47,17 @@ class BinaryTree implements Countable, TreeInterface
      *
      * @return BinaryNode|null
      */
-    public function search(Comparable $value): ?BinaryNode
+    public function search(Comparable $value): ?BinaryNodeInterface
     {
         return $this->searchRecursive($value, $this->root);
     }
 
     /**
-     * @param BinaryNode $node
      * @param Comparable $value
+     * @param BinaryNodeInterface $node
      * @return BinaryNode
      */
-    protected function searchRecursive(Comparable $value, BinaryNode $node = null): ?BinaryNode
+    protected function searchRecursive(Comparable $value, BinaryNodeInterface $node = null): ?BinaryNodeInterface
     {
         if ($node === null) {
             return null;
@@ -72,7 +72,7 @@ class BinaryTree implements Countable, TreeInterface
 
     /**
      * @param Comparable $value
-     * @return
+     * @return TreeInterface
      */
     public function insert(Comparable $value): TreeInterface
     {
@@ -86,11 +86,11 @@ class BinaryTree implements Countable, TreeInterface
     }
 
     /**
-     * @param BinaryNode $node
+     * @param BinaryNodeInterface $node
      * @param Comparable $value
      * @return void
      */
-    private function insertRecursive(BinaryNode $node, Comparable $value): void
+    private function insertRecursive(BinaryNodeInterface $node, Comparable $value): void
     {
         if ($node->getItem()->compareTo($value) >= 0) {
             if ($node->getLeft() === null) {
@@ -131,10 +131,18 @@ class BinaryTree implements Countable, TreeInterface
     }
 
     /**
-     * @return int
+     * @return int number of nodes in the tree
      */
     public function count(): int
     {
         return $this->elementCount;
+    }
+
+    /**
+     * @return int height of the tree
+     */
+    public function getHeight()
+    {
+        return $this->root->getHeight();
     }
 }

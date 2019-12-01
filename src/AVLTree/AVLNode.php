@@ -21,6 +21,9 @@ use Seboettg\Forest\BinaryTree\BinaryNode as BinaryTreeNode;
 class AVLNode extends BinaryTreeNode implements AVLNodeInterface
 {
 
+    /**
+     * @var int
+     */
     private $balance = 0;
 
     public function getBalance(): int

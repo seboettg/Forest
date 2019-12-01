@@ -1,16 +1,14 @@
 <?php
+declare(strict_types=1);
 /*
  * Forest: Item.php
  * User: Sebastian Böttger <sebastian.boettger@thomascook.de>
  * created at 14.09.19, 17:09
  */
 
-namespace Seboettg\Forest\Test\Helper;
-
-
+namespace Seboettg\Forest\General;
 
 use Seboettg\Collection\Comparable\Comparable;
-use Seboettg\Forest\General\ItemInterface;
 
 class Item implements ItemInterface {
 
@@ -31,9 +29,9 @@ class Item implements ItemInterface {
         /** @var Item $b */
         if ($this->value === $b->getValue()) {
             return 0;
-        } else {
-            return $this->value < $b->getValue() ? -1 : 1;
         }
+        return $this->value < $b->getValue() ? -1 : 1;
+
     }
 
     public function equals(ItemInterface $item): bool

@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /*
  * Trees: BinaryTreeTest.php
  * User: Sebastian Böttger <seboettg@gmail.com>
@@ -9,8 +10,8 @@ namespace Seboettg\Forest\Test\BinaryTree;
 
 use PHPUnit\Framework\TestCase;
 use Seboettg\Forest\BinaryTree\BinaryTree;
-use Seboettg\Forest\Test\Helper\Item;
-use Seboettg\Forest\Test\Helper\StringItem;
+use Seboettg\Forest\General\Item;
+use Seboettg\Forest\General\StringItem;
 
 class BinaryTreeTest extends TestCase
 {

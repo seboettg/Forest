@@ -10,7 +10,8 @@ namespace Seboettg\Forest\General;
 
 use Seboettg\Collection\Comparable\Comparable;
 
-class StringItem extends Item {
+class StringItem extends IntegerItem
+{
 
     public function compareTo(Comparable $b)
     {

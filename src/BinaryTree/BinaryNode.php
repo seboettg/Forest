@@ -12,7 +12,6 @@ declare(strict_types=1);
 namespace Seboettg\Forest\BinaryTree;
 
 use Seboettg\Collection\ArrayList\ArrayListInterface;
-use Seboettg\Collection\Comparable\Comparable;
 use Seboettg\Forest\General\ItemInterface;
 use Seboettg\Forest\General\TreeNode;
 use Seboettg\Forest\General\TreeNodeInterface;
@@ -25,7 +24,7 @@ use Seboettg\Forest\Visitor\VisitorInterface;
 class BinaryNode extends TreeNode implements BinaryNodeInterface
 {
 
-    public function __construct(Comparable $item)
+    public function __construct(ItemInterface $item)
     {
         parent::__construct($item);
         $this->children["left"] = null;
@@ -75,7 +74,7 @@ class BinaryNode extends TreeNode implements BinaryNodeInterface
     /**
      * @return mixed
      */
-    final public function getItem(): Comparable
+    final public function getItem(): ?ItemInterface
     {
         return $this->item;
     }

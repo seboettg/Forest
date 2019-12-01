@@ -73,7 +73,7 @@ class TreeNode implements TreeNodeInterface
     /**
      * @return ItemInterface
      */
-    public function getItem(): ?Comparable
+    public function getItem(): ?ItemInterface
     {
         return $this->item;
     }

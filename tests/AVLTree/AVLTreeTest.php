@@ -15,9 +15,9 @@ use Seboettg\Collection\Comparable\Comparator;
 use Seboettg\Forest\AVLTree\AVLNodeInterface;
 use Seboettg\Forest\AVLTree\AVLTree;
 use PHPUnit\Framework\TestCase;
-use Seboettg\Forest\General\Item;
+use Seboettg\Forest\General\IntegerItem;
 use Seboettg\Forest\General\StringItem;
-use Seboettg\Forest\General\TreeInterface;
+use Seboettg\Forest\General\TreeTraversalInterface;
 
 class AVLTreeTest extends TestCase
 {
@@ -29,7 +29,7 @@ class AVLTreeTest extends TestCase
     public function testBinaryTreeCondition(ArrayList $insertItems)
     {
         $avlTree = $this->insertItemsInAvlTree($insertItems);
-        $list = $avlTree->toArrayList(TreeInterface::TRAVERSE_IN_ORDER);
+        $list = $avlTree->toArrayList(TreeTraversalInterface::TRAVERSE_IN_ORDER);
         $sortedList = Collections::sort($insertItems, new class extends Comparator {
             public function compare(Comparable $a, Comparable $b) {
                 return $a->compareTo($b) > 0;
@@ -69,15 +69,15 @@ class AVLTreeTest extends TestCase
     public function conditionsDataProvider()
     {
         $first = [
-            new Item(3),
-            new Item(2),
-            new Item(1),
-            new Item(4),
-            new Item(5),
-            new Item(6),
-            new Item(7),
-            new Item(9),
-            new Item(8)
+            new IntegerItem(3),
+            new IntegerItem(2),
+            new IntegerItem(1),
+            new IntegerItem(4),
+            new IntegerItem(5),
+            new IntegerItem(6),
+            new IntegerItem(7),
+            new IntegerItem(9),
+            new IntegerItem(8)
         ];
 
         $asc = [
@@ -170,5 +170,27 @@ class AVLTreeTest extends TestCase
             $avlTree->insert($item);
         }
         return $avlTree;
+    }
+
+    public function testSearch()
+    {
+        $long = [
+            new StringItem("A"),
+            new StringItem("D"),
+            new StringItem("F"),
+            new StringItem("E"),
+            new StringItem("B"),
+            new StringItem("G"),
+            new StringItem("C"),
+            new StringItem("X"),
+            new StringItem('Y'),
+            new StringItem('Z')
+        ];
+        $avlTree = $this->insertItemsInAvlTree(new ArrayList(...$long));
+        $result = $avlTree->search(new StringItem("X"));
+        $this->assertTrue($result instanceof AVLNodeInterface);
+        $this->assertNotNull($result);
+        $this->assertNull($avlTree->search(new StringItem("H")));
+
     }
 }

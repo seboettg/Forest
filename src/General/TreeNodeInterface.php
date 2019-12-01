@@ -12,7 +12,6 @@ declare(strict_types=1);
 namespace Seboettg\Forest\General;
 
 use Seboettg\Collection\ArrayList\ArrayListInterface;
-use Seboettg\Collection\Comparable\Comparable;
 use Seboettg\Forest\Visitor\VisitorInterface;
 
 interface TreeNodeInterface
@@ -45,7 +44,7 @@ interface TreeNodeInterface
     /**
      * @return ItemInterface
      */
-    public function getItem(): ?Comparable;
+    public function getItem(): ?ItemInterface;
 
     /**
      * @return bool

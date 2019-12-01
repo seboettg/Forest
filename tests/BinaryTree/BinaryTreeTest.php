@@ -10,7 +10,7 @@ namespace Seboettg\Forest\Test\BinaryTree;
 
 use PHPUnit\Framework\TestCase;
 use Seboettg\Forest\BinaryTree\BinaryTree;
-use Seboettg\Forest\General\Item;
+use Seboettg\Forest\General\IntegerItem;
 use Seboettg\Forest\General\StringItem;
 
 class BinaryTreeTest extends TestCase
@@ -18,7 +18,7 @@ class BinaryTreeTest extends TestCase
 
     public function insertSearchDataProvider()
     {
-        $insertItems = [new Item(5), new Item(3), new Item(7), new Item(12), new Item(10)];
+        $insertItems = [new IntegerItem(5), new IntegerItem(3), new IntegerItem(7), new IntegerItem(12), new IntegerItem(10)];
         return [
             [$insertItems, 5, 10, true],
             [$insertItems, 5, 11, false]
@@ -48,7 +48,7 @@ class BinaryTreeTest extends TestCase
     public function testSearch(array $data, int $expectedCount, int $searchValue, bool $searchValueExist)
     {
         $binaryTree = $this->fillBinaryTree($data);
-        $searchItem = new Item($searchValue);
+        $searchItem = new IntegerItem($searchValue);
         $actualNode = $binaryTree->search($searchItem);
         if ($searchValueExist) {
             $this->assertNotNull($actualNode);
@@ -133,5 +133,4 @@ class BinaryTreeTest extends TestCase
         }
         return $binaryTree;
     }
-
 }

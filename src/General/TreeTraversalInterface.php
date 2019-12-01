@@ -9,9 +9,8 @@ declare(strict_types=1);
 namespace Seboettg\Forest\General;
 
 use Seboettg\Collection\ArrayList\ArrayListInterface;
-use Seboettg\Collection\Comparable\Comparable;
 
-interface TreeInterface
+interface TreeTraversalInterface
 {
     /**
      * The in-order traversal consists of first visiting the left sub-tree, then them self, and finally the
@@ -42,9 +41,4 @@ interface TreeInterface
      */
     public function toArrayList(int $traversalStrategy = self::TRAVERSE_IN_ORDER): ArrayListInterface;
 
-    /**
-     * @param Comparable $item
-     * @return mixed
-     */
-    public function insert(Comparable $item): self;
 }

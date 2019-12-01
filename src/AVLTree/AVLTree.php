@@ -11,11 +11,9 @@ declare(strict_types=1);
 
 namespace Seboettg\Forest\AVLTree;
 
-use Seboettg\Collection\Comparable\Comparable;
-use Seboettg\Forest\BinaryTree\BinaryNodeInterface;
 use Seboettg\Forest\BinaryTree\BinaryTree;
-use Seboettg\Forest\General\TreeInterface;
-use Seboettg\Forest\General\TreeNodeInterface;
+use Seboettg\Forest\General\ItemInterface;
+use Seboettg\Forest\General\TreeTraversalInterface;
 
 /**
  * Class AVLTree
@@ -27,10 +25,10 @@ class AVLTree extends BinaryTree
     private $rebalance = false;
 
     /**
-     * @param Comparable $value
-     * @return TreeInterface
+     * @param ItemInterface $value
+     * @return AVLTree
      */
-    public function insert(Comparable $value): TreeInterface
+    public function insert(ItemInterface $value): TreeTraversalInterface
     {
         ++$this->elementCount;
         if ($this->root === null) {
@@ -41,7 +39,12 @@ class AVLTree extends BinaryTree
         return $this;
     }
 
-    protected function insertNode(AVLNodeInterface $node, Comparable $item)
+    /**
+     * @param AVLNodeInterface $node
+     * @param ItemInterface $item
+     * @return AVLNode|AVLNodeInterface
+     */
+    protected function insertNode(AVLNodeInterface $node, ItemInterface $item)
     {
         if ($node->getItem()->compareTo($item) === 0) {
             return $node;
@@ -52,6 +55,10 @@ class AVLTree extends BinaryTree
         }
     }
 
+    /**
+     * @param AVLNodeInterface $node
+     * @return AVLNodeInterface
+     */
     private function rotateLeft(AVLNodeInterface $node): AVLNodeInterface
     {
         $tmp = $node->getRight();
@@ -60,7 +67,10 @@ class AVLTree extends BinaryTree
         return $tmp;
     }
 
-
+    /**
+     * @param AVLNodeInterface $node
+     * @return AVLNodeInterface
+     */
     private function rotateRight(AVLNodeInterface $node): AVLNodeInterface
     {
         $tmp = $node->getLeft();
@@ -71,11 +81,11 @@ class AVLTree extends BinaryTree
 
     /**
      * @param AVLNodeInterface $node
-     * @param Comparable $item
+     * @param ItemInterface $item
      *
      * @return AVLNode
      */
-    private function insertRight(AVLNodeInterface $node, Comparable $item): AVLNodeInterface
+    private function insertRight(AVLNodeInterface $node, ItemInterface $item): AVLNodeInterface
     {
         if ($node->getRight() !== null) {
             $node->setRight($this->insertNode($node->getRight(), $item)); //recursive insertion of the item in the right subtree
@@ -119,7 +129,12 @@ class AVLTree extends BinaryTree
         return null;
     }
 
-    private function insertLeft(AVLNodeInterface $node, Comparable $item): AVLNodeInterface
+    /**
+     * @param AVLNodeInterface $node
+     * @param ItemInterface $item
+     * @return AVLNodeInterface
+     */
+    private function insertLeft(AVLNodeInterface $node, ItemInterface $item): AVLNodeInterface
     {
         if ($node->getLeft() !== null) {
             $node->setLeft($this->insertNode($node->getLeft(), $item));
@@ -164,7 +179,7 @@ class AVLTree extends BinaryTree
     }
 
     /**
-     * @return AVLNodeInterface|BinaryNodeInterface|TreeNodeInterface
+     * @return AVLNodeInterface
      */
     public function getRootNode()
     {

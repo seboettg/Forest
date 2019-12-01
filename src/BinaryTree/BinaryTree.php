@@ -12,16 +12,11 @@ declare(strict_types=1);
 namespace Seboettg\Forest\BinaryTree;
 
 use Countable;
-use Seboettg\Collection\ArrayList;
-use Seboettg\Collection\ArrayList\ArrayListInterface;
-use Seboettg\Collection\Comparable\Comparable;
 use Seboettg\Forest\AVLTree\AVLNodeInterface;
-use Seboettg\Forest\General\TreeInterface;
+use Seboettg\Forest\General\ItemInterface;
+use Seboettg\Forest\General\TreeTraversalInterface;
 use Seboettg\Forest\General\TreeNodeInterface;
-use Seboettg\Forest\Visitor\InOrderVisitor;
-use Seboettg\Forest\Visitor\LevelOrderVisitor;
-use Seboettg\Forest\Visitor\PostOrderVisitor;
-use Seboettg\Forest\Visitor\PreOrderVisitor;
+use Seboettg\Forest\General\TreeTraversalTrait;
 
 /**
  * Class BinaryTree
@@ -29,8 +24,9 @@ use Seboettg\Forest\Visitor\PreOrderVisitor;
  *
  * @package Seboettg\Forest\BinaryTree
  */
-class BinaryTree implements Countable, TreeInterface
+class BinaryTree implements Countable, TreeTraversalInterface
 {
+    use TreeTraversalTrait;
 
     /**
      * @var TreeNodeInterface|BinaryNodeInterface|AVLNodeInterface
@@ -43,21 +39,21 @@ class BinaryTree implements Countable, TreeInterface
     protected $elementCount = 0;
 
     /**
-     * @param Comparable $value
+     * @param ItemInterface $value
      *
      * @return BinaryNode|null
      */
-    public function search(Comparable $value): ?BinaryNodeInterface
+    public function search(ItemInterface $value): ?BinaryNodeInterface
     {
         return $this->searchRecursive($value, $this->root);
     }
 
     /**
-     * @param Comparable $value
+     * @param ItemInterface $value
      * @param BinaryNodeInterface $node
      * @return BinaryNode
      */
-    protected function searchRecursive(Comparable $value, BinaryNodeInterface $node = null): ?BinaryNodeInterface
+    protected function searchRecursive(ItemInterface $value, BinaryNodeInterface $node = null): ?BinaryNodeInterface
     {
         if ($node === null) {
             return null;
@@ -71,10 +67,10 @@ class BinaryTree implements Countable, TreeInterface
     }
 
     /**
-     * @param Comparable $value
-     * @return TreeInterface
+     * @param ItemInterface $value
+     * @return TreeTraversalInterface
      */
-    public function insert(Comparable $value): TreeInterface
+    public function insert(ItemInterface $value): TreeTraversalInterface
     {
         ++$this->elementCount;
         if ($this->root === null) {
@@ -87,10 +83,10 @@ class BinaryTree implements Countable, TreeInterface
 
     /**
      * @param BinaryNodeInterface $node
-     * @param Comparable $value
+     * @param ItemInterface $value
      * @return void
      */
-    private function insertRecursive(BinaryNodeInterface $node, Comparable $value): void
+    private function insertRecursive(BinaryNodeInterface $node, ItemInterface $value): void
     {
         if ($node->getItem()->compareTo($value) >= 0) {
             if ($node->getLeft() === null) {
@@ -105,29 +101,6 @@ class BinaryTree implements Countable, TreeInterface
                 $this->insertRecursive($node->getRight(), $value);
             }
         }
-    }
-
-    /**
-     * @param int $orderStrategy
-     * @return ArrayListInterface
-     */
-    public function toArrayList(int $orderStrategy = self::TRAVERSE_IN_ORDER): ArrayListInterface
-    {
-        $result = new ArrayList();
-        switch ($orderStrategy) {
-            case self::TRAVERSE_IN_ORDER:
-                $result = $this->root->accept(new InOrderVisitor());
-                break;
-            case self::TRAVERSE_PRE_ORDER:
-                $result = $this->root->accept(new PreOrderVisitor());
-                break;
-            case self::TRAVERSE_POST_ORDER:
-                $result = $this->root->accept(new PostOrderVisitor());
-                break;
-            case self::TRAVERSE_LEVEL_ORDER:
-                $result = $this->root->accept(new LevelOrderVisitor());
-        }
-        return $result;
     }
 
     /**

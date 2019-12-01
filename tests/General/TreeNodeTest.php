@@ -7,7 +7,7 @@
 
 namespace Seboettg\Forest\Test\General;
 
-use Seboettg\Forest\General\Item;
+use Seboettg\Forest\General\IntegerItem;
 use Seboettg\Forest\General\TreeNode;
 use PHPUnit\Framework\TestCase;
 
@@ -19,10 +19,10 @@ class TreeNodeTest extends TestCase
      */
     public function testBuildTree()
     {
-        $root = new TreeNode(new Item(5));
+        $root = new TreeNode(new IntegerItem(5));
         $this->assertEquals(0, $root->getHeight());
         foreach ([6,7,8,9] as $item) {
-            $root->addChild(new TreeNode(new Item($item)));
+            $root->addChild(new TreeNode(new IntegerItem($item)));
         }
         $this->assertTrue($root->isRoot());
         foreach ($root->getChildren() as $child) {

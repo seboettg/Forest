@@ -10,23 +10,37 @@ namespace Seboettg\Forest\General;
 
 use Seboettg\Collection\Comparable\Comparable;
 
-class Item implements ItemInterface {
+class IntegerItem implements ItemInterface {
 
+    /**
+     * @var int
+     */
     protected $value;
 
+    /**
+     * Item constructor.
+     * @param int $value
+     */
     public function __construct($value)
     {
         $this->value = $value;
     }
 
+    /**
+     * @return int
+     */
     public function getValue()
     {
         return $this->value;
     }
 
+    /**
+     * @param Comparable $b
+     * @return int
+     */
     public function compareTo(Comparable $b)
     {
-        /** @var Item $b */
+        /** @var IntegerItem $b */
         if ($this->value === $b->getValue()) {
             return 0;
         }
@@ -34,6 +48,10 @@ class Item implements ItemInterface {
 
     }
 
+    /**
+     * @param ItemInterface $item
+     * @return bool
+     */
     public function equals(ItemInterface $item): bool
     {
         return $this->compareTo($item) === 0;

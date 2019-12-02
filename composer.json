@@ -1,6 +1,6 @@
 {
     "name": "seboettg/forest",
-    "description": "Tree data-structures for PHP",
+    "description": "Collection is a set of useful PHP wrapper classes for arrays, similar to Java Collection. Contains ArrayList, Stack, Queue.",
     "type": "library",
     "keywords": [
         "avl",

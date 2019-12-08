@@ -17,6 +17,10 @@ use Seboettg\Forest\General\TreeNodeInterface;
 
 /**
  * Class PostOrderVisitor
+ * Implements the tree traversal strategy Post-order.
+ * In this traversal strategy, the root node is visited last. First we traverse the subtrees from left to right
+ * and finally the root node.
+ *
  * @package Seboettg\Forest\Visitor
  */
 class PostOrderVisitor implements VisitorInterface

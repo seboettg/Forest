@@ -1,10 +1,5 @@
 <?php
 declare(strict_types=1);
-/*
- * Forest: AVLTreeTest.php
- * User: Sebastian Böttger <sebastian.boettger@thomascook.de>
- * created at 14.09.19, 17:03
- */
 
 namespace Seboettg\Forest\Test\AVLTree;
 
@@ -150,12 +145,26 @@ class AVLTreeTest extends TestCase
          (A)   (C)       (F)
 
          */
+
+        $long2 = [
+            new StringItem('Z'),
+            new StringItem('Y'),
+            new StringItem("X"),
+            new StringItem("C"),
+            new StringItem("G"),
+            new StringItem("B"),
+            new StringItem("E"),
+            new StringItem("F"),
+            new StringItem("D"),
+            new StringItem("A"),
+        ];
         return [
             [new ArrayList(...$first), 4],
             [new ArrayList(...$desc), 3],
             [new ArrayList(...$asc), 3],
             [new ArrayList(...$mixed), 3],
-            [new ArrayList(...$long), 4]
+            [new ArrayList(...$long), 4],
+            [new ArrayList(...$long2), 4]
         ];
     }
 

@@ -17,6 +17,14 @@ use Seboettg\Collection\ArrayList\ArrayListInterface;
 use Seboettg\Forest\BinaryTree\BinaryNodeInterface;
 use Seboettg\Forest\General\TreeNodeInterface;
 
+/**
+ * Class InOrderVisitor
+ * Implements the tree traversal strategy In-order.
+ * In this traversal strategy, the left subtree is visited first, then the root and later the right sub-tree.
+ * If a binary tree is traversed in-order, the output will produce sorted key values in an ascending order.
+ *
+ * @package Seboettg\Forest\Visitor
+ */
 class InOrderVisitor implements VisitorInterface
 {
 

@@ -1,9 +1,4 @@
 <?php
-/*
- * Forest: TreeNodeTest.php
- * User: Sebastian Böttger <sebastian.boettger@thomascook.de>
- * created at 01.12.19, 18:26
- */
 
 namespace Seboettg\Forest\Test\General;
 

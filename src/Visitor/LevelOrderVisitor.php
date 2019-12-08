@@ -14,9 +14,15 @@ namespace Seboettg\Forest\Visitor;
 use Seboettg\Collection\ArrayList;
 use Seboettg\Collection\ArrayList\ArrayListInterface;
 use Seboettg\Collection\Queue;
-use Seboettg\Forest\BinaryTree\BinaryNode;
 use Seboettg\Forest\General\TreeNodeInterface;
 
+/**
+ * Class LevelOrderVisitor
+ * Implements the tree traversal strategy Level-order.
+ * In this traversal strategy, the root node is visited first, than all nodes of the next level and so on.
+ *
+ * @package Seboettg\Forest\Visitor
+ */
 class LevelOrderVisitor implements VisitorInterface
 {
 
@@ -36,8 +42,9 @@ class LevelOrderVisitor implements VisitorInterface
     private function traverseLevelOrder(ArrayListInterface $target, Queue $queue): ArrayListInterface
     {
         while ($queue->count() > 0) {
-            /** @var BinaryNode $node */
+            /** @var TreeNodeInterface $node */
             $node = $queue->dequeue();
+            //enqueue all children to the queue for traversing the next level
             foreach ($node->getChildren() as $child) {
                 $queue->enqueue($child);
             }

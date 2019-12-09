@@ -1,9 +1,12 @@
 <?php
 declare(strict_types=1);
 /*
- * Forest: Item.php
- * User: Sebastian Böttger <sebastian.boettger@thomascook.de>
- * created at 14.09.19, 17:09
+ * Copyright (C) 2019 Sebastian Böttger <seboettg@gmail.com>
+ * You may use, distribute and modify this code under the
+ * terms of the MIT license.
+ *
+ * You should have received a copy of the MIT license with
+ * this file. If not, please visit: https://opensource.org/licenses/mit-license.php
  */
 
 namespace Seboettg\Forest\General;
@@ -21,7 +24,7 @@ class IntegerItem implements ItemInterface {
      * Item constructor.
      * @param int $value
      */
-    public function __construct($value)
+    public function __construct(int $value)
     {
         $this->value = $value;
     }
@@ -29,7 +32,7 @@ class IntegerItem implements ItemInterface {
     /**
      * @return int
      */
-    public function getValue()
+    public function getValue(): int
     {
         return $this->value;
     }

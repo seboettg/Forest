@@ -29,7 +29,7 @@ class BinaryTree implements Countable, TreeTraversalInterface
     use TreeTraversalTrait;
 
     /**
-     * @var TreeNodeInterface|BinaryNodeInterface|AVLNodeInterface
+     * @var BinaryNodeInterface|AVLNodeInterface
      */
     protected $root;
 
@@ -43,7 +43,7 @@ class BinaryTree implements Countable, TreeTraversalInterface
      *
      * @return BinaryNode|null
      */
-    public function search(ItemInterface $value): ?BinaryNodeInterface
+    final public function search(ItemInterface $value): ?BinaryNodeInterface
     {
         return $this->searchRecursive($value, $this->root);
     }
@@ -53,7 +53,7 @@ class BinaryTree implements Countable, TreeTraversalInterface
      * @param BinaryNodeInterface $node
      * @return BinaryNode
      */
-    protected function searchRecursive(ItemInterface $value, BinaryNodeInterface $node = null): ?BinaryNodeInterface
+    final protected function searchRecursive(ItemInterface $value, BinaryNodeInterface $node = null): ?BinaryNodeInterface
     {
         if ($node === null) {
             return null;
@@ -86,7 +86,7 @@ class BinaryTree implements Countable, TreeTraversalInterface
      * @param ItemInterface $value
      * @return void
      */
-    private function insertRecursive(BinaryNodeInterface $node, ItemInterface $value): void
+    final private function insertRecursive(BinaryNodeInterface $node, ItemInterface $value): void
     {
         if ($node->getItem()->compareTo($value) >= 0) {
             if ($node->getLeft() === null) {
@@ -106,7 +106,7 @@ class BinaryTree implements Countable, TreeTraversalInterface
     /**
      * @return int number of nodes in the tree
      */
-    public function count(): int
+    final public function count(): int
     {
         return $this->elementCount;
     }
@@ -114,8 +114,16 @@ class BinaryTree implements Countable, TreeTraversalInterface
     /**
      * @return int height of the tree
      */
-    public function getHeight()
+    final public function getHeight()
     {
         return $this->root->getHeight();
+    }
+
+    /**
+     * @return AVLNodeInterface
+     */
+    final public function getRootNode()
+    {
+        return $this->root;
     }
 }

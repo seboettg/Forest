@@ -44,7 +44,7 @@ class AVLTree extends BinaryTree
      * @param ItemInterface $item
      * @return AVLNode|AVLNodeInterface
      */
-    protected function insertNode(AVLNodeInterface $node, ItemInterface $item)
+    final protected function insertNode(AVLNodeInterface $node, ItemInterface $item)
     {
         if ($node->getItem()->compareTo($item) === 0) {
             return $node;
@@ -59,7 +59,7 @@ class AVLTree extends BinaryTree
      * @param AVLNodeInterface $node
      * @return AVLNodeInterface
      */
-    private function rotateLeft(AVLNodeInterface $node): AVLNodeInterface
+    final private function rotateLeft(AVLNodeInterface $node): AVLNodeInterface
     {
         $tmp = $node->getRight();
         $node->setRight($node->getRight()->getLeft());
@@ -71,7 +71,7 @@ class AVLTree extends BinaryTree
      * @param AVLNodeInterface $node
      * @return AVLNodeInterface
      */
-    private function rotateRight(AVLNodeInterface $node): AVLNodeInterface
+    final private function rotateRight(AVLNodeInterface $node): AVLNodeInterface
     {
         $tmp = $node->getLeft();
         $node->setLeft($node->getLeft()->getRight());
@@ -85,7 +85,7 @@ class AVLTree extends BinaryTree
      *
      * @return AVLNode
      */
-    private function insertRight(AVLNodeInterface $node, ItemInterface $item): AVLNodeInterface
+    final private function insertRight(AVLNodeInterface $node, ItemInterface $item): AVLNodeInterface
     {
         if ($node->getRight() !== null) {
             $node->setRight($this->insertNode($node->getRight(), $item)); //recursive insertion of the item in the right subtree
@@ -102,7 +102,7 @@ class AVLTree extends BinaryTree
                             $node->setRight($this->rotateRight($node->getRight()));
                             $tmp = $this->rotateLeft($node);
                             $tmp->getRight()->setBalance($balance === -1 ? 1 : 0);
-                            $tmp->getLeft()->setBalance($balance === 1 ? -1 : 0);
+                            $tmp->getLeft()->setBalance($balance === 1 ? 0 : -1);
                         }
                         $tmp->setBalance(0);
                         $this->rebalance = false;
@@ -134,7 +134,7 @@ class AVLTree extends BinaryTree
      * @param ItemInterface $item
      * @return AVLNodeInterface
      */
-    private function insertLeft(AVLNodeInterface $node, ItemInterface $item): AVLNodeInterface
+    final private function insertLeft(AVLNodeInterface $node, ItemInterface $item): AVLNodeInterface
     {
         if ($node->getLeft() !== null) {
             $node->setLeft($this->insertNode($node->getLeft(), $item));
@@ -176,13 +176,5 @@ class AVLTree extends BinaryTree
             return $node;
         }
         return null;
-    }
-
-    /**
-     * @return AVLNodeInterface
-     */
-    public function getRootNode()
-    {
-        return $this->root;
     }
 }

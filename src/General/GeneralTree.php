@@ -1,13 +1,17 @@
 <?php
 /*
- * Forest: Builder.php
- * User: Sebastian Böttger <sebastian.boettger@thomascook.de>
- * created at 01.12.19, 21:28
+ * Copyright (C) 2019 Sebastian Böttger <seboettg@gmail.com>
+ * You may use, distribute and modify this code under the
+ * terms of the MIT license.
+ *
+ * You should have received a copy of the MIT license with
+ * this file. If not, please visit: https://opensource.org/licenses/mit-license.php
  */
 
 namespace Seboettg\Forest\General;
 
 use Countable;
+use ErrorException;
 use Seboettg\Collection\Stack;
 
 /**
@@ -31,15 +35,23 @@ class GeneralTree implements Countable, TreeTraversalInterface
     /**
      * @var int
      */
-    private $elementCount;
+    private $elementCount = 0;
 
     /**
      * @var TreeNodeInterface
      */
     private $root;
 
+    /**
+     * GeneralTree constructor.
+     * @param string $itemType
+     * @throws ErrorException
+     */
     public function __construct(string $itemType)
     {
+        if (!class_exists($itemType)) {
+            throw new ErrorException("Could not find class $itemType");
+        }
         $this->itemType = $itemType;
     }
 
@@ -52,7 +64,6 @@ class GeneralTree implements Countable, TreeTraversalInterface
         $this->treeNodeStack = new Stack();
         $this->root = $this->nodeFactory($value);
         $this->treeNodeStack->push($this->root);
-        ++$this->elementCount;
         return $this;
     }
 
@@ -67,7 +78,6 @@ class GeneralTree implements Countable, TreeTraversalInterface
         $node = $this->nodeFactory($value);
         $this->treeNodeStack->peek()->addChild($node);
         $this->treeNodeStack->push($node);
-        ++$this->elementCount;
         return $this;
     }
 
@@ -79,7 +89,6 @@ class GeneralTree implements Countable, TreeTraversalInterface
     {
         $node = $this->nodeFactory($value);
         $this->treeNodeStack->peek()->addChild($node);
-        ++$this->elementCount;
         return $this;
     }
 
@@ -93,11 +102,15 @@ class GeneralTree implements Countable, TreeTraversalInterface
     }
 
     /**
-     * @param $value
+     * @param mixed $value
      * @return TreeNodeInterface
      */
-    private function nodeFactory($value)
+    private function nodeFactory($value): TreeNodeInterface
     {
+        ++$this->elementCount;
+        if (is_object($value) && get_class($value) === $this->itemType) {
+            return new TreeNode($value);
+        }
         $item = new $this->itemType($value);
         return new TreeNode($item);
     }
@@ -105,7 +118,7 @@ class GeneralTree implements Countable, TreeTraversalInterface
     /**
      * @return TreeNodeInterface
      */
-    public function getNode()
+    public function getNode(): ?TreeNodeInterface
     {
         return $this->treeNodeStack->peek();
     }
@@ -113,7 +126,7 @@ class GeneralTree implements Countable, TreeTraversalInterface
     /**
      * @return TreeNodeInterface
      */
-    public function getRoot()
+    public function getRoot(): ?TreeNodeInterface
     {
         return $this->root;
     }

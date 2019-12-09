@@ -94,7 +94,7 @@ class BinaryNode extends TreeNode implements BinaryNodeInterface
      */
     public function getChildren(): array
     {
-        return array_filter($this->children, function($item) {
+        return array_filter($this->children, function(?BinaryNodeInterface $item) {
             return !empty($item);
         });
     }

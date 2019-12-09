@@ -81,21 +81,21 @@ class TreeNode implements TreeNodeInterface
     /**
      * @return bool
      */
-    public function isLeaf(): bool
+    final public function isLeaf(): bool
     {
         return count($this->children) === 0;
     }
     /**
      * @return bool
      */
-    public function isRoot(): bool
+    final public function isRoot(): bool
     {
         return $this->getParent() === null;
     }
     /**
      * @return bool
      */
-    public function isChild(): bool
+    final public function isChild(): bool
     {
         return $this->getParent() !== null;
     }
@@ -105,7 +105,7 @@ class TreeNode implements TreeNodeInterface
      *
      * @return int
      */
-    public function getLevel(): int
+    final public function getLevel(): int
     {
         if ($this->isRoot()) {
             return 0;
@@ -118,7 +118,7 @@ class TreeNode implements TreeNodeInterface
      *
      * @return int
      */
-    public function getHeight(): int
+    final public function getHeight(): int
     {
         if ($this->isLeaf()) {
             return 0;

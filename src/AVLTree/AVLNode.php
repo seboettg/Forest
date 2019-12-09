@@ -26,12 +26,12 @@ class AVLNode extends BinaryTreeNode implements AVLNodeInterface
      */
     private $balance = 0;
 
-    public function getBalance(): int
+    final public function getBalance(): int
     {
         return $this->balance;
     }
 
-    public function setBalance(int $balance): void
+    final public function setBalance(int $balance): void
     {
         $this->balance = $balance;
     }

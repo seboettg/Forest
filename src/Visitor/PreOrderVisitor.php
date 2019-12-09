@@ -17,6 +17,9 @@ use Seboettg\Forest\General\TreeNodeInterface;
 
 /**
  * Class PreOrderVisitor
+ * Implements the tree traversal strategy Pre-order.
+ * In this traversal strategy, the root node is visited first, then the subtrees of the children from left to right
+ *
  * @package Seboettg\Forest\Visitor
  */
 class PreOrderVisitor implements VisitorInterface

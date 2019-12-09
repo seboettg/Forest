@@ -1,10 +1,5 @@
 <?php
 declare(strict_types=1);
-/*
- * Trees: BinaryTreeTest.php
- * User: Sebastian Böttger <seboettg@gmail.com>
- * created at 2019-02-16, 18:19
- */
 
 namespace Seboettg\Forest\Test\BinaryTree;
 

@@ -1,6 +1,6 @@
 {
     "name": "seboettg/forest",
-    "description": "Tree data-structures for PHP",
+    "description": "Tree data structures for PHP – containing general tree, binary tree, and AVL tree",
     "type": "library",
     "keywords": [
         "avl",

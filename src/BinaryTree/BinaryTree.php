@@ -15,7 +15,6 @@ use Countable;
 use Seboettg\Forest\AVLTree\AVLNodeInterface;
 use Seboettg\Forest\General\ItemInterface;
 use Seboettg\Forest\General\TreeTraversalInterface;
-use Seboettg\Forest\General\TreeNodeInterface;
 use Seboettg\Forest\General\TreeTraversalTrait;
 
 /**
@@ -37,6 +36,14 @@ class BinaryTree implements Countable, TreeTraversalInterface
      * @var int
      */
     protected $elementCount = 0;
+
+    protected $itemType;
+
+    public function __construct(?string $itemType = null)
+    {
+        $this->itemType = $itemType;
+    }
+
 
     /**
      * @param ItemInterface $value
@@ -67,18 +74,35 @@ class BinaryTree implements Countable, TreeTraversalInterface
     }
 
     /**
-     * @param ItemInterface $value
+     * @param mixed $value
      * @return TreeTraversalInterface
      */
-    public function insert(ItemInterface $value): TreeTraversalInterface
+    public function insert($value): TreeTraversalInterface
     {
         ++$this->elementCount;
+        if (!empty($this->itemType) && is_object($value) && get_class($value) === $this->itemType) {
+            $this->insertItem($value);
+        } else {
+            if (empty($this->itemType)) {
+                $this->insertItem($value);
+            } else {
+                $item = new $this->itemType($value);
+                $this->insertItem($item);
+            }
+        }
+        return $this;
+    }
+
+    /**
+     * @param $value
+     */
+    protected function insertItem($value): void
+    {
         if ($this->root === null) {
             $this->root = new BinaryNode($value);
         } else {
             $this->insertRecursive($this->root, $value);
         }
-        return $this;
     }
 
     /**

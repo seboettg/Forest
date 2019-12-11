@@ -24,19 +24,13 @@ class AVLTree extends BinaryTree
 {
     private $rebalance = false;
 
-    /**
-     * @param ItemInterface $value
-     * @return AVLTree
-     */
-    public function insert(ItemInterface $value): TreeTraversalInterface
+    protected function insertItem($value): void
     {
-        ++$this->elementCount;
         if ($this->root === null) {
             $this->root = new AVLNode($value);
         } else {
             $this->root = $this->insertNode($this->root, $value);
         }
-        return $this;
     }
 
     /**

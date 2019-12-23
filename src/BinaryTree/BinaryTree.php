@@ -83,8 +83,13 @@ class BinaryTree implements Countable, TreeTraversalInterface
         if (!empty($this->itemType) && is_object($value) && get_class($value) === $this->itemType) {
             $this->insertItem($value);
         } else {
-            $item = new $this->itemType($value);
-            $this->insertItem($item);
+
+            if (empty($this->itemType)) {
+                $this->insertItem($value);
+            } else {
+                $item = new $this->itemType($value);
+                $this->insertItem($item);
+            }
         }
         return $this;
     }
@@ -92,7 +97,7 @@ class BinaryTree implements Countable, TreeTraversalInterface
     /**
      * @param $value
      */
-    private function insertItem($value): void
+    protected function insertItem($value): void
     {
         if ($this->root === null) {
             $this->root = new BinaryNode($value);

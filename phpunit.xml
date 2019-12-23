@@ -11,7 +11,7 @@
 
     <testsuites>
         <testsuite name="Project Test Suite">
-            <directory>tests/Seboettg/Trees/Test</directory>
+            <directory>tests/</directory>
         </testsuite>
     </testsuites>
 

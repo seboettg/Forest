@@ -37,5 +37,8 @@
             "name": "Sebastian Böttger",
             "email": "seboettg@gmail.com"
         }
-    ]
+    ],
+    "scripts": {
+        "test": "vendor/bin/phpunit -c phpunit.xml"
+    }
 }

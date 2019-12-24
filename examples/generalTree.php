@@ -15,9 +15,9 @@ use Seboettg\Forest\General\GeneralTree;
 use Seboettg\Forest\General\IntegerItem;
 use Seboettg\Forest\General\TreeTraversalInterface;
 
-$builder = new GeneralTree(IntegerItem::class);
+$tree = new GeneralTree(IntegerItem::class);
 
-$builder
+$tree
     ->root(1)
         ->child(2)
         ->subTree(3)
@@ -28,9 +28,9 @@ $builder
             ->child(5)
             ->child(6)
         ->endSubTree();
-echo $builder->count() . " items added to tree\n";
+echo $tree->count() . " items added to tree\n";
 
-$rootNode = $builder->getRoot();
+$rootNode = $tree->getRoot();
 
 if ($rootNode->isRoot()) {
     echo "root node\n";
@@ -56,7 +56,7 @@ foreach ($rootNode->getChildren() as $lev1) {
 echo "\n";
 
 
-$list = $builder->toArrayList(TreeTraversalInterface::TRAVERSE_LEVEL_ORDER);
+$list = $tree->toArrayList(TreeTraversalInterface::TRAVERSE_LEVEL_ORDER);
 
 /** @var IntegerItem $item */
 foreach ($list as $item) {

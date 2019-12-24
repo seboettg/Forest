@@ -26,8 +26,8 @@ class AVLTreeTest extends TestCase
         $avlTree = $this->insertItemsInAvlTree($insertItems);
         $list = $avlTree->toArrayList(TreeTraversalInterface::TRAVERSE_IN_ORDER);
         $sortedList = Collections::sort($insertItems, new class extends Comparator {
-            public function compare(Comparable $a, Comparable $b) {
-                return $a->compareTo($b) > 0;
+            public function compare(Comparable $a, Comparable $b): int {
+                return $a->compareTo($b) > 0 ? 1 : -1;
             }
         });
         $this->assertEquals($sortedList, $list);

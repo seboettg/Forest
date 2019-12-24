@@ -13,7 +13,6 @@ namespace Seboettg\Forest\AVLTree;
 
 use Seboettg\Forest\BinaryTree\BinaryTree;
 use Seboettg\Forest\General\ItemInterface;
-use Seboettg\Forest\General\TreeTraversalInterface;
 
 /**
  * Class AVLTree
@@ -96,7 +95,7 @@ class AVLTree extends BinaryTree
                             $node->setRight($this->rotateRight($node->getRight()));
                             $tmp = $this->rotateLeft($node);
                             $tmp->getRight()->setBalance($balance === -1 ? 1 : 0);
-                            $tmp->getLeft()->setBalance($balance === 1 ? 0 : -1);
+                            $tmp->getLeft()->setBalance($balance === 1 ? -1 : 0);
                         }
                         $tmp->setBalance(0);
                         $this->rebalance = false;
@@ -143,7 +142,7 @@ class AVLTree extends BinaryTree
                             $balance = $node->getLeft()->getRight()->getBalance();
                             $node->setLeft($this->rotateLeft($node->getLeft()));
                             $tmp = $this->rotateRight($node);
-                            $tmp->getRight()->setBalance($balance === -1 ? 0 : 1);
+                            $tmp->getRight()->setBalance($balance === -1 ? 1 : 0);
                             $tmp->getLeft()->setBalance($balance === 1 ? -1 : 0);
 
                         }

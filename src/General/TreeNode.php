@@ -12,7 +12,6 @@ declare(strict_types=1);
 namespace Seboettg\Forest\General;
 
 use Seboettg\Collection\ArrayList\ArrayListInterface;
-use Seboettg\Collection\Comparable\Comparable;
 use Seboettg\Forest\Visitor\VisitorInterface;
 
 class TreeNode implements TreeNodeInterface
@@ -35,9 +34,9 @@ class TreeNode implements TreeNodeInterface
 
     /**
      * TreeNode constructor.
-     * @param Comparable $item
+     * @param ItemInterface $item
      */
-    public function __construct(Comparable $item)
+    public function __construct(ItemInterface $item)
     {
         $this->children = [];
         $this->item = $item;

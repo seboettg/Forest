@@ -35,7 +35,7 @@ class StringItem implements ItemInterface
         return $this->value;
     }
 
-    public function compareTo(Comparable $b)
+    public function compareTo(Comparable $b): int
     {
         /** @var StringItem $b */
         return strcasecmp($this->getValue(), $b->getValue());

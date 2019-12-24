@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /*
  * Copyright (C) 2019 Sebastian Böttger <seboettg@gmail.com>
  * You may use, distribute and modify this code under the
@@ -9,7 +10,6 @@
  */
 
 namespace Seboettg\Forest\General;
-
 
 use Seboettg\Collection\ArrayList;
 use Seboettg\Collection\ArrayList\ArrayListInterface;

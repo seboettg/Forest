@@ -19,5 +19,15 @@ use Seboettg\Collection\Comparable\Comparable;
  */
 interface ItemInterface extends Comparable
 {
+    /**
+     * @param ItemInterface $item
+     * @return bool
+     */
     public function equals(ItemInterface $item): bool;
+
+    /**
+     * @param Comparable|ItemInterface $b
+     * @return int
+     */
+    public function compareTo(Comparable $b): int;
 }

@@ -41,7 +41,7 @@ class IntegerItem implements ItemInterface {
      * @param Comparable $b
      * @return int
      */
-    public function compareTo(Comparable $b)
+    public function compareTo(Comparable $b): int
     {
         /** @var IntegerItem $b */
         if ($this->value === $b->getValue()) {

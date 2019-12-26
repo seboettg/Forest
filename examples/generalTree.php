@@ -11,9 +11,9 @@ declare(strict_types=1);
 
 require "../vendor/autoload.php";
 
-use Seboettg\Forest\General\GeneralTree;
-use Seboettg\Forest\General\IntegerItem;
 use Seboettg\Forest\General\TreeTraversalInterface;
+use Seboettg\Forest\GeneralTree;
+use Seboettg\Forest\Item\IntegerItem;
 
 $tree = new GeneralTree(IntegerItem::class);
 

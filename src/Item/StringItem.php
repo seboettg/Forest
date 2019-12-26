@@ -9,50 +9,49 @@ declare(strict_types=1);
  * this file. If not, please visit: https://opensource.org/licenses/mit-license.php
  */
 
-namespace Seboettg\Forest\General;
+namespace Seboettg\Forest\Item;
 
 use Seboettg\Collection\Comparable\Comparable;
 
-class IntegerItem implements ItemInterface {
-
+class StringItem implements ItemInterface
+{
     /**
-     * @var int
+     * @var string
      */
     protected $value;
 
-    /**
-     * Item constructor.
-     * @param int $value
-     */
-    public function __construct(int $value)
+    public function __construct(string $value)
     {
         $this->value = $value;
     }
 
-    /**
-     * @return int
-     */
-    public function getValue(): int
+    public function setValue(string $value)
+    {
+        $this->value = $value;
+    }
+
+    public function getValue(): ?string
     {
         return $this->value;
     }
 
     /**
-     * @param Comparable $b
+     * @param Comparable|StringItem $b
      * @return int
      */
     public function compareTo(Comparable $b): int
     {
-        /** @var IntegerItem $b */
-        if ($this->value === $b->getValue()) {
-            return 0;
-        }
-        return $this->value < $b->getValue() ? -1 : 1;
+        /** @var StringItem $b */
+        return strcasecmp($this->getValue(), $b->getValue());
+    }
 
+    public function __toString()
+    {
+        return (string)$this->value;
     }
 
     /**
-     * @param ItemInterface $item
+     * @param ItemInterface|StringItem $item
      * @return bool
      */
     public function equals(ItemInterface $item): bool

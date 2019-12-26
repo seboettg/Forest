@@ -1,18 +1,18 @@
 <?php
 declare(strict_types=1);
 
-namespace Seboettg\Forest\Test\AVLTree;
+namespace Seboettg\Forest\Test;
 
 use Seboettg\Collection\ArrayList;
 use Seboettg\Collection\Collections;
 use Seboettg\Collection\Comparable\Comparable;
 use Seboettg\Collection\Comparable\Comparator;
+use Seboettg\Forest\AVLTree;
 use Seboettg\Forest\AVLTree\AVLNodeInterface;
-use Seboettg\Forest\AVLTree\AVLTree;
 use PHPUnit\Framework\TestCase;
-use Seboettg\Forest\General\IntegerItem;
-use Seboettg\Forest\General\StringItem;
 use Seboettg\Forest\General\TreeTraversalInterface;
+use Seboettg\Forest\Item\IntegerItem;
+use Seboettg\Forest\Item\StringItem;
 
 class AVLTreeTest extends TestCase
 {
@@ -56,7 +56,7 @@ class AVLTreeTest extends TestCase
         $leftHeight = !empty($node->getLeft()) ? $node->getLeft()->getHeight() : 0;
         $rightHeight = !empty($node->getRight()) ? $node->getRight()->getHeight() : 0;
         $heightDiff = abs($leftHeight - $rightHeight);
-        $this->assertTrue($heightDiff <= 2);
+        $this->assertTrue($heightDiff < 2);
         $this->checkAvlCondition($node->getLeft());
         $this->checkAvlCondition($node->getRight());
     }

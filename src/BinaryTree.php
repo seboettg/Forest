@@ -9,11 +9,13 @@ declare(strict_types=1);
  * this file. If not, please visit: https://opensource.org/licenses/mit-license.php
  */
 
-namespace Seboettg\Forest\BinaryTree;
+namespace Seboettg\Forest;
 
 use Countable;
 use Seboettg\Forest\AVLTree\AVLNodeInterface;
-use Seboettg\Forest\General\ItemInterface;
+use Seboettg\Forest\BinaryTree\BinaryNode;
+use Seboettg\Forest\BinaryTree\BinaryNodeInterface;
+use Seboettg\Forest\Item\ItemInterface;
 use Seboettg\Forest\General\TreeTraversalInterface;
 use Seboettg\Forest\General\TreeTraversalTrait;
 
@@ -48,7 +50,7 @@ class BinaryTree implements Countable, TreeTraversalInterface
     /**
      * @param ItemInterface $value
      *
-     * @return BinaryNode|null
+     * @return BinaryNodeInterface|AVLNodeInterface
      */
     final public function search(ItemInterface $value): ?BinaryNodeInterface
     {
@@ -58,7 +60,7 @@ class BinaryTree implements Countable, TreeTraversalInterface
     /**
      * @param ItemInterface $value
      * @param BinaryNodeInterface $node
-     * @return BinaryNode
+     * @return BinaryNodeInterface|AVLNodeInterface
      */
     final protected function searchRecursive(ItemInterface $value, BinaryNodeInterface $node = null): ?BinaryNodeInterface
     {

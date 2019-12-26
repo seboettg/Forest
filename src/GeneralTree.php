@@ -9,11 +9,15 @@ declare(strict_types=1);
  * this file. If not, please visit: https://opensource.org/licenses/mit-license.php
  */
 
-namespace Seboettg\Forest\General;
+namespace Seboettg\Forest;
 
 use Countable;
 use ErrorException;
 use Seboettg\Collection\Stack;
+use Seboettg\Forest\General\TreeNode;
+use Seboettg\Forest\General\TreeNodeInterface;
+use Seboettg\Forest\General\TreeTraversalInterface;
+use Seboettg\Forest\General\TreeTraversalTrait;
 
 /**
  * Class Builder
@@ -106,7 +110,7 @@ class GeneralTree implements Countable, TreeTraversalInterface
      * @param mixed $value
      * @return TreeNodeInterface
      */
-    private function nodeFactory($value): TreeNodeInterface
+    protected function nodeFactory($value): TreeNodeInterface
     {
         ++$this->elementCount;
         if (is_object($value) && get_class($value) === $this->itemType) {
@@ -127,7 +131,7 @@ class GeneralTree implements Countable, TreeTraversalInterface
     /**
      * @return TreeNodeInterface
      */
-    public function getRoot(): ?TreeNodeInterface
+    final public function getRoot(): ?TreeNodeInterface
     {
         return $this->root;
     }
@@ -135,7 +139,7 @@ class GeneralTree implements Countable, TreeTraversalInterface
     /**
      * @inheritDoc
      */
-    public function count()
+    final public function count()
     {
         return $this->elementCount;
     }

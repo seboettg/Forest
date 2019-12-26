@@ -1,12 +1,12 @@
 <?php
 declare(strict_types=1);
 
-namespace Seboettg\Forest\Test\BinaryTree;
+namespace Seboettg\Forest\Test;
 
 use PHPUnit\Framework\TestCase;
-use Seboettg\Forest\BinaryTree\BinaryTree;
-use Seboettg\Forest\General\IntegerItem;
-use Seboettg\Forest\General\StringItem;
+use Seboettg\Forest\BinaryTree;
+use Seboettg\Forest\Item\IntegerItem;
+use Seboettg\Forest\Item\StringItem;
 
 class BinaryTreeTest extends TestCase
 {

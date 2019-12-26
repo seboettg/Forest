@@ -12,6 +12,7 @@ declare(strict_types=1);
 namespace Seboettg\Forest\General;
 
 use Seboettg\Collection\ArrayList\ArrayListInterface;
+use Seboettg\Forest\Item\ItemInterface;
 use Seboettg\Forest\Visitor\VisitorInterface;
 
 class TreeNode implements TreeNodeInterface

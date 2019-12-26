@@ -6,9 +6,9 @@
  */
 
 use Seboettg\Collection\Comparable\Comparable;
-use Seboettg\Forest\General\ItemInterface;
+use Seboettg\Forest\Item\ItemInterface;
 
-class PhoneBookEntry implements ItemInterface
+class AddressBookEntry implements ItemInterface
 {
 
     /**
@@ -45,7 +45,7 @@ class PhoneBookEntry implements ItemInterface
     }
 
     /**
-     * @param Comparable|PhoneBookEntry $b
+     * @param Comparable|AddressBookEntry $b
      * @return int
      */
     public function compareTo(Comparable $b): int
@@ -54,7 +54,7 @@ class PhoneBookEntry implements ItemInterface
     }
 
     /**
-     * @param ItemInterface|PhoneBookEntry $item
+     * @param ItemInterface|AddressBookEntry $item
      * @return bool
      */
     public function equals(ItemInterface $item): bool

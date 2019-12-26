@@ -2,9 +2,9 @@
 
 namespace Seboettg\Forest\Test\General;
 
-use Seboettg\Forest\General\IntegerItem;
 use Seboettg\Forest\General\TreeNode;
 use PHPUnit\Framework\TestCase;
+use Seboettg\Forest\Item\IntegerItem;
 
 class TreeNodeTest extends TestCase
 {

@@ -12,9 +12,9 @@ declare(strict_types=1);
 namespace Seboettg\Forest\BinaryTree;
 
 use Seboettg\Collection\ArrayList\ArrayListInterface;
-use Seboettg\Forest\General\ItemInterface;
 use Seboettg\Forest\General\TreeNode;
 use Seboettg\Forest\General\TreeNodeInterface;
+use Seboettg\Forest\Item\ItemInterface;
 use Seboettg\Forest\Visitor\VisitorInterface;
 
 /**

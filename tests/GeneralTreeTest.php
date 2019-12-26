@@ -1,15 +1,15 @@
 <?php
 
-namespace Seboettg\Forest\Test\General;
+namespace Seboettg\Forest\Test;
 
 use ErrorException;
 use \InvalidArgumentException;
 use Seboettg\Collection\ArrayList;
-use Seboettg\Forest\General\GeneralTree;
 use PHPUnit\Framework\TestCase;
-use Seboettg\Forest\General\IntegerItem;
-use Seboettg\Forest\General\StringItem;
 use Seboettg\Forest\General\TreeTraversalInterface;
+use Seboettg\Forest\GeneralTree;
+use Seboettg\Forest\Item\IntegerItem;
+use Seboettg\Forest\Item\StringItem;
 
 class GeneralTreeTest extends TestCase
 {
@@ -40,7 +40,7 @@ class GeneralTreeTest extends TestCase
                 ->endSubTree()
             ->getNode();
         $this->assertEquals(3, $tree->getHeight());
-        $this->assertTrue($tree->getChildren()[1]->getChildren()[0]->getChildren()[0]->getItem()->equals(new IntegerItem(7)));
+        $this->assertEquals($tree->getChildren()[1]->getChildren()[0]->getChildren()[0]->getItem(), new IntegerItem(7));
     }
 
     public function testBuilder2()

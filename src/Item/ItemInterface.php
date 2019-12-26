@@ -9,7 +9,7 @@ declare(strict_types=1);
  * this file. If not, please visit: https://opensource.org/licenses/mit-license.php
  */
 
-namespace Seboettg\Forest\General;
+namespace Seboettg\Forest\Item;
 
 use Seboettg\Collection\Comparable\Comparable;
 

@@ -9,10 +9,11 @@ declare(strict_types=1);
  * this file. If not, please visit: https://opensource.org/licenses/mit-license.php
  */
 
-namespace Seboettg\Forest\AVLTree;
+namespace Seboettg\Forest;
 
-use Seboettg\Forest\BinaryTree\BinaryTree;
-use Seboettg\Forest\General\ItemInterface;
+use Seboettg\Forest\AVLTree\AVLNode;
+use Seboettg\Forest\AVLTree\AVLNodeInterface;
+use Seboettg\Forest\Item\ItemInterface;
 
 /**
  * Class AVLTree

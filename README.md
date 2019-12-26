@@ -1,6 +1,14 @@
 # Forest
 
-"Forest" is a PHP library that contains classes to create tree data structures such as binary or AVL trees. Furthermore, typical tree traversing strategies are implemented.
+[![PHP](https://img.shields.io/badge/PHP-%3E=7.1-green.svg?style=flat)](http://docs.php.net/manual/en/migration71.new-features.php)
+[![Total Downloads](https://poser.pugx.org/seboettg/forest/downloads)](https://packagist.org/packages/seboettg/forest/stats) 
+[![License](https://img.shields.io/badge/license-MIT-blue.svg?style=flat-square)](https://github.com/seboettg/forest/blob/master/LICENSE)
+[![Build Status](https://scrutinizer-ci.com/g/seboettg/Forest/badges/build.png?b=master)](https://scrutinizer-ci.com/g/seboettg/Forest/build-status/master)
+[![Code Coverage](https://scrutinizer-ci.com/g/seboettg/Forest/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/seboettg/Forest/?branch=master)
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/seboettg/Forest/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/seboettg/Forest/?branch=master)
+[![Code Intelligence Status](https://scrutinizer-ci.com/g/seboettg/Forest/badges/code-intelligence.svg?b=master)](https://scrutinizer-ci.com/code-intelligence)
+
+"Forest" is a PHP library that contains classes to create tree data structures such as general trees or Binary Search Trees. Furthermore, typical tree traversing strategies are implemented.
 
 ## How to use Forest
 
@@ -147,4 +155,4 @@ The result is:
 
 ### An Example of Binary Search Trees
 
-An possible example is an [address book as you can find it in the examples folder](examples/bst/AddressBook.md). 
+A possible example is an [address book as you can find it in the examples folder](examples/bst/AddressBook.md). 

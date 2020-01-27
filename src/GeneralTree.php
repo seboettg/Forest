@@ -21,7 +21,7 @@ use Seboettg\Forest\General\TreeTraversalTrait;
 
 /**
  * Class Builder
- * @package Seboettg\Forest\General
+ * @package Seboettg\Forest
  */
 class GeneralTree implements Countable, TreeTraversalInterface
 {
@@ -139,7 +139,7 @@ class GeneralTree implements Countable, TreeTraversalInterface
     /**
      * @inheritDoc
      */
-    final public function count()
+    final public function count(): int
     {
         return $this->elementCount;
     }

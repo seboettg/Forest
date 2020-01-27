@@ -11,21 +11,20 @@ declare(strict_types=1);
 
 namespace Seboettg\Forest;
 
-use Countable;
 use Seboettg\Forest\AVLTree\AVLNodeInterface;
 use Seboettg\Forest\BinaryTree\BinaryNode;
 use Seboettg\Forest\BinaryTree\BinaryNodeInterface;
+use Seboettg\Forest\BinaryTree\BinaryTreeInterface;
 use Seboettg\Forest\Item\ItemInterface;
-use Seboettg\Forest\General\TreeTraversalInterface;
 use Seboettg\Forest\General\TreeTraversalTrait;
 
 /**
  * Class BinaryTree
  * A binary tree is a recursive data structure where each node can have 2 children at most.
  *
- * @package Seboettg\Forest\BinaryTree
+ * @package Seboettg\Forest
  */
-class BinaryTree implements Countable, TreeTraversalInterface
+class BinaryTree implements BinaryTree\BinaryTreeInterface
 {
     use TreeTraversalTrait;
 
@@ -68,7 +67,7 @@ class BinaryTree implements Countable, TreeTraversalInterface
             return null;
         } else if ($node->getItem()->compareTo($value) === 0) {
             return $node;
-        } else if ($node->getItem()->compareTo($value) >= 0) {
+        } else if ($node->getItem()->compareTo($value) > 0) {
             return $this->searchRecursive($value, $node->getLeft());
         } else {
             return $this->searchRecursive($value, $node->getRight());
@@ -77,15 +76,14 @@ class BinaryTree implements Countable, TreeTraversalInterface
 
     /**
      * @param mixed $value
-     * @return TreeTraversalInterface
+     * @return BinaryTree
      */
-    public function insert($value): TreeTraversalInterface
+    public function insert($value): BinaryTreeInterface
     {
         ++$this->elementCount;
         if (!empty($this->itemType) && is_object($value) && get_class($value) === $this->itemType) {
             $this->insertItem($value);
         } else {
-
             if (empty($this->itemType)) {
                 $this->insertItem($value);
             } else {
@@ -93,6 +91,23 @@ class BinaryTree implements Countable, TreeTraversalInterface
                 $this->insertItem($item);
             }
         }
+        return $this;
+    }
+
+    public function remove($value): BinaryTreeInterface
+    {
+
+        if (!empty($this->itemType) && is_object($value) && get_class($value) === $this->itemType) {
+            $this->removeItem($value);
+        } else {
+            if (empty($this->itemType)) {
+                $this->removeItem($value);
+            } else {
+                $item = new $this->itemType($value);
+                $this->removeItem($item);
+            }
+        }
+        --$this->elementCount;
         return $this;
     }
 
@@ -141,7 +156,7 @@ class BinaryTree implements Countable, TreeTraversalInterface
     /**
      * @return int height of the tree
      */
-    final public function getHeight()
+    final public function getHeight(): int
     {
         return $this->root->getHeight();
     }
@@ -152,5 +167,85 @@ class BinaryTree implements Countable, TreeTraversalInterface
     final public function getRootNode()
     {
         return $this->root;
+    }
+
+    /**
+     * @param BinaryNodeInterface $node
+     * @return BinaryNodeInterface
+     */
+    protected function getLeftMostLeaf(BinaryNodeInterface $node): BinaryNodeInterface
+    {
+        $current = $node;
+        while (null !== $current->getLeft()) {
+            $current = $current->getLeft();
+        }
+        return $current;
+    }
+
+    /**
+     * @param ItemInterface $item
+     */
+    protected function removeItem(ItemInterface $item): void
+    {
+        if ($this->root->getItem()->compareTo($item) !== 0) {
+            $this->removeItemRecursive($item, $this->root);
+            return;
+        }
+        $this->reassignSubtree($this->root);
+    }
+
+    /**
+     * @param ItemInterface $item
+     * @param BinaryNodeInterface|null $node
+     */
+    private function removeItemRecursive(ItemInterface $item, ?BinaryNodeInterface &$node = null): void
+    {
+        $tmp = $node;
+        $cmp = $node->getItem()->compareTo($item);
+        $child = null;
+        switch($cmp) {
+            case -1:
+                $child = $node->getRight();
+                break;
+            case 0:
+                return;
+            case 1:
+                $child = $node->getLeft();
+        }
+
+        if ($child->getItem()->compareTo($item) !== 0) {
+            $this->removeItemRecursive($item, $child);
+        } else {
+            $this->reassignSubtree($child);
+            ($cmp > 0) ? $tmp->setLeft($child) : $tmp->setRight($child);
+            $node = $tmp;
+        }
+    }
+
+    /**
+     * @param BinaryNodeInterface $node
+     */
+    protected function reassignSubtree(BinaryNodeInterface &$node): void
+    {
+        if (empty($node->getLeft()) && empty($node->getRight())) { //no children?
+            $node = null; // just unset the node and return
+            return;
+        }
+        if (empty($node->getRight())) { // is there something on the right?
+            $tmp = $node->getLeft(); // if not, return left node
+            $tmp->setParent(null);
+            $node = $tmp;
+        } else {
+            if (empty($node->getLeft())) { // is there something on the left?
+                $tmp = $node->getRight(); // if not, return right node
+                $tmp->setParent(null);
+                $node = $tmp;
+            } else { // left and right?
+                $tmp = $node->getRight(); //keep right in mind
+                $leftMostLeaf = $this->getLeftMostLeaf($tmp); // get the leftmost leaf of the right subtree
+                $leftMostLeaf->setLeft($node->getLeft());  // append the left subtree to the leftmost leaf of the right subtree
+                $node = $tmp;
+            }
+        }
     }
 }

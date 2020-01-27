@@ -23,12 +23,19 @@ use Seboettg\Forest\Visitor\VisitorInterface;
  */
 class BinaryNode extends TreeNode implements BinaryNodeInterface
 {
+    /**
+     * @var BinaryNodeInterface
+     */
+    protected $left;
+
+    /**
+     * @var BinaryNodeInterface
+     */
+    protected $right;
 
     public function __construct(ItemInterface $item)
     {
         parent::__construct($item);
-        $this->children["left"] = null;
-        $this->children["right"] = null;
     }
 
     /**
@@ -36,7 +43,7 @@ class BinaryNode extends TreeNode implements BinaryNodeInterface
      */
     final public function getLeft(): ?BinaryNodeInterface
     {
-        return $this->children["left"];
+        return $this->left;
     }
 
     /**
@@ -48,7 +55,7 @@ class BinaryNode extends TreeNode implements BinaryNodeInterface
         if ($left !== null) {
             $left->setParent($this);
         }
-        $this->children["left"] = $left;
+        $this->left = $left;
     }
 
     /**
@@ -56,7 +63,7 @@ class BinaryNode extends TreeNode implements BinaryNodeInterface
      */
     final public function getRight(): ?BinaryNodeInterface
     {
-        return $this->children["right"];
+        return $this->right;
     }
 
     /**
@@ -68,7 +75,7 @@ class BinaryNode extends TreeNode implements BinaryNodeInterface
         if ($right !== null) {
             $right->setParent($this);
         }
-        $this->children["right"] = $right;
+        $this->right = $right;
     }
 
     /**
@@ -94,7 +101,7 @@ class BinaryNode extends TreeNode implements BinaryNodeInterface
      */
     public function getChildren(): array
     {
-        return array_filter($this->children, function(?BinaryNodeInterface $item) {
+        return array_filter([$this->left, $this->right], function(?BinaryNodeInterface $item) {
             return !empty($item);
         });
     }
@@ -102,7 +109,7 @@ class BinaryNode extends TreeNode implements BinaryNodeInterface
     /**
      * @return TreeNodeInterface
      */
-    public function getParent(): TreeNodeInterface
+    public function getParent(): ?TreeNodeInterface
     {
         return $this->parent;
     }
@@ -110,7 +117,7 @@ class BinaryNode extends TreeNode implements BinaryNodeInterface
     /**
      * @param TreeNodeInterface $parent
      */
-    public function setParent(TreeNodeInterface $parent): void
+    public function setParent(?TreeNodeInterface $parent): void
     {
         $this->parent = $parent;
     }

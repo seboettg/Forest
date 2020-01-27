@@ -30,7 +30,7 @@ interface TreeNodeInterface
     /**
      * @param TreeNodeInterface $node
      */
-    public function setParent(TreeNodeInterface $node): void;
+    public function setParent(?TreeNodeInterface $node): void;
 
     /**
      * @return int
@@ -46,6 +46,11 @@ interface TreeNodeInterface
      * @return ItemInterface
      */
     public function getItem(): ?ItemInterface;
+
+    /**
+     * @param ItemInterface $item
+     */
+    public function setItem(ItemInterface $item): void;
 
     /**
      * @return bool

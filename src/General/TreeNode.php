@@ -15,6 +15,10 @@ use Seboettg\Collection\ArrayList\ArrayListInterface;
 use Seboettg\Forest\Item\ItemInterface;
 use Seboettg\Forest\Visitor\VisitorInterface;
 
+/**
+ * Class TreeNode
+ * @package Seboettg\Forest\General
+ */
 class TreeNode implements TreeNodeInterface
 {
 
@@ -48,7 +52,7 @@ class TreeNode implements TreeNodeInterface
         return $this->parent;
     }
 
-    public function setParent(TreeNodeInterface $parent): void
+    public function setParent(?TreeNodeInterface $parent): void
     {
         $this->parent = $parent;
     }
@@ -79,11 +83,19 @@ class TreeNode implements TreeNodeInterface
     }
 
     /**
+     * @inheritDoc
+     */
+    public function setItem(ItemInterface $item): void
+    {
+        $this->item = $item;
+    }
+
+    /**
      * @return bool
      */
     final public function isLeaf(): bool
     {
-        return count($this->children) === 0;
+        return count($this->getChildren()) === 0;
     }
     /**
      * @return bool

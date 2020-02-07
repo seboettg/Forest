@@ -181,7 +181,7 @@ class BinaryTreeTest extends TestCase
 
         $insertItems = array_map(self::mapItem($className), $insert);
 
-        $binaryTree = new BinaryTree(StringItem::class);
+        $binaryTree = new BinaryTree($className);
         foreach ($insertItems as $item) {
             $binaryTree->insert($item);
         }
@@ -189,14 +189,14 @@ class BinaryTreeTest extends TestCase
         $list = $binaryTree->toArrayList(TreeTraversalInterface::TRAVERSE_IN_ORDER);
         $sortedInsert = $insert;
         sort($sortedInsert);
-        $this->assertEquals(array_map(self::mapItem(), $sortedInsert), $list->toArray());
+        $this->assertEquals(array_map(self::mapItem($className), $sortedInsert), $list->toArray());
 
         foreach ($remove as $rmValue) {
             $binaryTree->remove($rmValue); //remove
         }
 
         $list = $binaryTree->toArrayList(TreeTraversalInterface::TRAVERSE_IN_ORDER); //to list
-        $this->assertEquals(array_map(self::mapItem(), $expectedResults), $list->toArray()); //compare with expected value
+        $this->assertEquals(array_map(self::mapItem($className), $expectedResults), $list->toArray()); //compare with expected value
     }
 
     public function removeDataProvider()

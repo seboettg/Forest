@@ -168,11 +168,15 @@ class BinaryTreeTest extends TestCase
 
     /**
      * @dataProvider removeDataProvider
+     * @param string $className
+     * @param array $insert
+     * @param array $remove
+     * @param array $expectedResults
      */
-    public function testRemove(array $insert, array $remove, array $expectedResults)
+    public function testRemove(string $className, array $insert, array $remove, array $expectedResults)
     {
 
-        $insertItems = array_map(self::mapStringItem(), $insert);
+        $insertItems = array_map(self::mapItem($className), $insert);
 
         $binaryTree = new BinaryTree(StringItem::class);
         foreach ($insertItems as $item) {
@@ -182,20 +186,21 @@ class BinaryTreeTest extends TestCase
         $list = $binaryTree->toArrayList(TreeTraversalInterface::TRAVERSE_IN_ORDER);
         $sortedInsert = $insert;
         sort($sortedInsert);
-        $this->assertEquals(array_map(self::mapStringItem(), $sortedInsert), $list->toArray());
+        $this->assertEquals(array_map(self::mapItem(), $sortedInsert), $list->toArray());
 
         foreach ($remove as $rmValue) {
             $binaryTree->remove($rmValue); //remove
         }
 
         $list = $binaryTree->toArrayList(TreeTraversalInterface::TRAVERSE_IN_ORDER); //to list
-        $this->assertEquals(array_map(self::mapStringItem(), $expectedResults), $list->toArray()); //compare with expected value
+        $this->assertEquals(array_map(self::mapItem(), $expectedResults), $list->toArray()); //compare with expected value
     }
 
     public function removeDataProvider()
     {
         return [
             [
+                StringItem::class,
                 /*
                  *           (A)
                  *         /     \
@@ -210,6 +215,7 @@ class BinaryTreeTest extends TestCase
                 ['A', 'B', 'C', 'D', 'E', 'G']
             ],
             [
+                StringItem::class,
                 /*
                  *           (A)
                  *         /     \
@@ -224,16 +230,19 @@ class BinaryTreeTest extends TestCase
                 ['B', 'C', 'D', 'E', 'F', 'G']
             ],
             [
+                StringItem::class,
                 ['Z', 'Y', 'X', 'C', 'G', 'B', 'E', 'F', 'D', 'A'],
                 ['D'],
                 ['A', 'B', 'C', 'E', 'F', 'G', 'X', 'Y', 'Z']
             ],
             [
+                StringItem::class,
                 ['Z', 'Y', 'X', 'C', 'G', 'B', 'E', 'F', 'D', 'A'],
                 ['C'],
                 ['A', 'B', 'D', 'E', 'F', 'G', 'X', 'Y', 'Z']
             ],
             [
+                StringItem::class,
                 ['Z', 'Y', 'X', 'C', 'G', 'B', 'E', 'F', 'D', 'A'],
                 ['G'],
                 ['A', 'B', 'C', 'D', 'E', 'F', 'X', 'Y', 'Z']
@@ -241,10 +250,10 @@ class BinaryTreeTest extends TestCase
         ];
     }
 
-    protected static function mapStringItem()
+    protected static function mapItem(string $className)
     {
-        return function($value) {
-            return new StringItem($value);
+        return function($value) use ($className) {
+            return new $className($value);
         };
     }
 }

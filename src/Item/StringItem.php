@@ -42,7 +42,11 @@ class StringItem implements ItemInterface
     public function compareTo(Comparable $b): int
     {
         /** @var StringItem $b */
-        return strcasecmp($this->getValue(), $b->getValue());
+        $diff = strcasecmp($this->getValue(), $b->getValue());
+        if ($diff === 0) {
+            return $diff;
+        }
+        return $diff > 0 ? 1 : -1;
     }
 
     public function __toString()

@@ -11,7 +11,6 @@ declare(strict_types=1);
 
 namespace Seboettg\Forest;
 
-use Seboettg\Forest\AVLTree\AVLNodeInterface;
 use Seboettg\Forest\BinaryTree\BinaryNode;
 use Seboettg\Forest\BinaryTree\BinaryNodeInterface;
 use Seboettg\Forest\BinaryTree\BinaryTreeInterface;
@@ -29,7 +28,7 @@ class BinaryTree implements BinaryTree\BinaryTreeInterface
     use TreeTraversalTrait;
 
     /**
-     * @var BinaryNodeInterface|AVLNodeInterface
+     * @var BinaryNodeInterface
      */
     protected $root;
 
@@ -49,7 +48,7 @@ class BinaryTree implements BinaryTree\BinaryTreeInterface
     /**
      * @param ItemInterface $value
      *
-     * @return BinaryNodeInterface|AVLNodeInterface
+     * @return BinaryNodeInterface
      */
     final public function search(ItemInterface $value): ?BinaryNodeInterface
     {
@@ -59,7 +58,7 @@ class BinaryTree implements BinaryTree\BinaryTreeInterface
     /**
      * @param ItemInterface $value
      * @param BinaryNodeInterface $node
-     * @return BinaryNodeInterface|AVLNodeInterface
+     * @return BinaryNodeInterface
      */
     final protected function searchRecursive(ItemInterface $value, BinaryNodeInterface $node = null): ?BinaryNodeInterface
     {
@@ -162,7 +161,7 @@ class BinaryTree implements BinaryTree\BinaryTreeInterface
     }
 
     /**
-     * @return AVLNodeInterface
+     * @return BinaryNodeInterface
      */
     final public function getRootNode()
     {
@@ -198,7 +197,7 @@ class BinaryTree implements BinaryTree\BinaryTreeInterface
      * @param ItemInterface $item
      * @param BinaryNodeInterface|null $node
      */
-    private function removeItemRecursive(ItemInterface $item, ?BinaryNodeInterface &$node = null): void
+    protected function removeItemRecursive(ItemInterface $item, ?BinaryNodeInterface &$node = null): void
     {
         $tmp = $node;
         $cmp = $node->getItem()->compareTo($item);

@@ -11,8 +11,8 @@ declare(strict_types=1);
 
 namespace Seboettg\Forest;
 
-use Seboettg\Forest\AVLTree\AVLNode;
-use Seboettg\Forest\AVLTree\AVLNodeInterface;
+use Seboettg\Forest\BinaryTree\BinaryNode;
+use Seboettg\Forest\BinaryTree\BinaryNodeInterface;
 use Seboettg\Forest\Item\ItemInterface;
 
 /**
@@ -22,38 +22,58 @@ use Seboettg\Forest\Item\ItemInterface;
  */
 class AVLTree extends BinaryTree
 {
-    private $rebalance = false;
-
     protected function insertItem($value): void
     {
         if ($this->root === null) {
-            $this->root = new AVLNode($value);
+            $this->root = new BinaryNode($value);
         } else {
             $this->root = $this->insertNode($this->root, $value);
         }
     }
 
     /**
-     * @param AVLNodeInterface $node
+     * @param BinaryNodeInterface $node
      * @param ItemInterface $item
-     * @return AVLNode|AVLNodeInterface
+     * @return BinaryNode|BinaryNodeInterface
      */
-    final protected function insertNode(AVLNodeInterface $node, ItemInterface $item)
+    final protected function insertNode(?BinaryNodeInterface $node, ItemInterface $item): BinaryNodeInterface
     {
-        if ($node->getItem()->compareTo($item) === 0) {
-            return $node;
-        } else if ($node->getItem()->compareTo($item) < 0) {
-            return $this->insertRight($node, $item);
-        } else {
-            return $this->insertLeft($node, $item);
+        if (null === $node) {
+            return new BinaryNode($item);
         }
+        if ($item->compareTo($node->getItem()) < 0) {
+            $node->setLeft($this->insertNode($node->getLeft(), $item));
+        } else {
+            if ($item->compareTo($node->getItem()) > 0) {
+                $node->setRight($this->insertNode($node->getRight(), $item));
+            } else {
+                return $node;
+            }
+        }
+
+        if ($this->getBalance($node) > 1 && $item->compareTo($node->getLeft()->getItem()) < 0) {
+            return $this->rotateRight($node);
+        }
+        $this->rebalance($item, $node);
+        return $node;
     }
 
     /**
-     * @param AVLNodeInterface $node
-     * @return AVLNodeInterface
+     * @param BinaryNodeInterface|null $node
+     * @return int
      */
-    final private function rotateLeft(AVLNodeInterface $node): AVLNodeInterface
+    protected function getBalance(?BinaryNodeInterface $node): int
+    {
+        $balanceLeft = null !== $node->getLeft() ? $node->getLeft()->getHeight() : 0;
+        $balanceRight = null !== $node->getRight() ? $node->getRight()->getHeight() : 0;
+        return $balanceLeft - $balanceRight;
+    }
+
+    /**
+     * @param BinaryNodeInterface $node
+     * @return BinaryNodeInterface
+     */
+    final private function rotateLeft(BinaryNodeInterface $node): BinaryNodeInterface
     {
         $tmp = $node->getRight();
         $node->setRight($node->getRight()->getLeft());
@@ -62,10 +82,10 @@ class AVLTree extends BinaryTree
     }
 
     /**
-     * @param AVLNodeInterface $node
-     * @return AVLNodeInterface
+     * @param BinaryNodeInterface $node
+     * @return BinaryNodeInterface
      */
-    final private function rotateRight(AVLNodeInterface $node): AVLNodeInterface
+    final private function rotateRight(BinaryNodeInterface $node): BinaryNodeInterface
     {
         $tmp = $node->getLeft();
         $node->setLeft($node->getLeft()->getRight());
@@ -74,101 +94,72 @@ class AVLTree extends BinaryTree
     }
 
     /**
-     * @param AVLNodeInterface $node
      * @param ItemInterface $item
-     *
-     * @return AVLNode
+     * @param BinaryNodeInterface|null $node
      */
-    final private function insertRight(AVLNodeInterface $node, ItemInterface $item): AVLNodeInterface
+    protected function removeItemRecursive(ItemInterface $item, ?BinaryNodeInterface &$node = null): void
     {
-        if ($node->getRight() !== null) {
-            $node->setRight($this->insertNode($node->getRight(), $item)); //recursive insertion of the item in the right subtree
-            if ($this->rebalance) {
-                switch ($node->getBalance()) {
-                    case 1:
-                        if ($node->getRight()->getBalance() === 1) {
-                            //rotation left
-                            $tmp = $this->rotateLeft($node);
-                            $tmp->getLeft()->setBalance(0);
-                        } else {
-                            //double rotation left-right
-                            $balance = $node->getRight()->getLeft()->getBalance();
-                            $node->setRight($this->rotateRight($node->getRight()));
-                            $tmp = $this->rotateLeft($node);
-                            $tmp->getRight()->setBalance($balance === -1 ? 1 : 0);
-                            $tmp->getLeft()->setBalance($balance === 1 ? -1 : 0);
-                        }
-                        $tmp->setBalance(0);
-                        $this->rebalance = false;
-                        return $tmp;
-                    case 0:
-                        $node->setBalance(1);
-                        return $node;
-                    case -1:
-                        $node->setBalance(0);
-                        $this->rebalance = false;
-                        return $node;
-                }
-            } else {
-                return $node;
-            }
-        } else {
-            //create new node
-            $newNode = new AVLNode($item);
-            $node->setRight($newNode);
-            $node->setBalance($node->getBalance() + 1);
-            $this->rebalance = $node->getBalance() >= 1;
-            return $node;
-        }
-        return null;
+        parent::removeItemRecursive($item, $node);
+        $this->rebalance($item, $node);
     }
 
     /**
-     * @param AVLNodeInterface $node
-     * @param ItemInterface $item
-     * @return AVLNodeInterface
+     * @param BinaryNodeInterface $node
      */
-    final private function insertLeft(AVLNodeInterface $node, ItemInterface $item): AVLNodeInterface
+    protected function reassignSubtree(BinaryNodeInterface &$node): void
     {
-        if ($node->getLeft() !== null) {
-            $node->setLeft($this->insertNode($node->getLeft(), $item));
-            if ($this->rebalance) {
-                switch ($node->getBalance()) {
-                    case -1:
-                        if ($node->getLeft()->getBalance() === -1) {
-                            $tmp = $this->rotateRight($node);
-                            $tmp->getRight()->setBalance(0);
-                        } else {
-                            //double rotation right-left
-                            $balance = $node->getLeft()->getRight()->getBalance();
-                            $node->setLeft($this->rotateLeft($node->getLeft()));
-                            $tmp = $this->rotateRight($node);
-                            $tmp->getRight()->setBalance($balance === -1 ? 1 : 0);
-                            $tmp->getLeft()->setBalance($balance === 1 ? -1 : 0);
-
-                        }
-                        $tmp->setBalance(0);
-                        $this->rebalance = false;
-                        return $tmp;
-                    case 0:
-                        $node->setBalance(-1);
-                        return $node;
-                    case 1:
-                        $node->setBalance(0);
-                        $this->rebalance = false;
-                        return $node;
-                }
-            } else {
-                return $node;
-            }
-        } else {
-            //create new node
-            $newNode = new AVLNode($item);
-            $node->setLeft($newNode);
-            $node->setBalance($node->getBalance() - 1);
-            $this->rebalance = $node->getBalance() <= -1;
-            return $node;
+        if (empty($node->getLeft()) && empty($node->getRight())) { //no children?
+            $node = null; // just unset the node and return
+            return;
         }
-        return null;
+        if (empty($node->getRight())) { // is there something on the right?
+            $tmp = $node->getLeft(); // if not, return left node
+            $tmp->setParent(null);
+            $node = $tmp;
+        } else {
+            if (empty($node->getLeft())) { // is there something on the left?
+                $tmp = $node->getRight(); // if not, return right node
+                $tmp->setParent(null);
+                $node = $tmp;
+            } else { // left and right?
+                $tmp = $node->getRight(); //keep right in mind
+                $this->rebalance($node->getItem(), $tmp);
+                $leftMostLeaf = $this->getLeftMostLeaf($tmp); // get the leftmost leaf of the right subtree
+                $leftMostLeaf->setLeft($node->getLeft());  // append the left subtree to the leftmost leaf of the right subtree
+                $node = $tmp;
+            }
+        }
+
+    }
+
+    /**
+     * @param ItemInterface $item
+     * @param BinaryNodeInterface|null $node
+     */
+    protected function rebalance(ItemInterface $item, ?BinaryNodeInterface &$node): void
+    {
+        $balance = $this->getBalance($node);
+        if ($balance > 1) {
+            // left left
+            if ($item->compareTo($node->getLeft()->getItem()) < 0) {
+                $node = $this->rotateRight($node);
+            }
+            // left right
+            if ($item->compareTo($node->getLeft()->getItem()) > 0) {
+                $node->setLeft($this->rotateLeft($node->getLeft()));
+                $node = $this->rotateRight($node);
+            }
+        }
+        if ($balance < -1) {
+            // right right
+            if ($item->compareTo($node->getRight()->getItem()) > 0) {
+                $node = $this->rotateLeft($node);
+            }
+            // right left
+            if ($item->compareTo($node->getRight()->getItem()) < 0) {
+                $node->setRight($this->rotateRight($node->getRight()));
+                $node = $this->rotateLeft($node);
+            }
+        }
     }
 }

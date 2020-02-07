@@ -11,18 +11,17 @@ declare(strict_types=1);
 
 namespace Seboettg\Forest\BinaryTree;
 
-use Seboettg\Forest\AVLTree\AVLNodeInterface;
 use Seboettg\Forest\General\TreeNodeInterface;
 
 interface BinaryNodeInterface extends TreeNodeInterface
 {
     /**
-     * @return BinaryNodeInterface|AVLNodeInterface
+     * @return BinaryNodeInterface
      */
     public function getLeft();
 
     /**
-     * @return BinaryNodeInterface|AVLNodeInterface
+     * @return BinaryNodeInterface
      */
     public function getRight();
 

@@ -67,7 +67,10 @@ class BinaryTreeTest extends TestCase
     public function testInsert(array $data, int $expectedCount, int $searchValue, bool $searchValueExist)
     {
         $binaryTree = $this->fillBinaryTree($data);
+        $height = (int) ceil(log(count($data), 2));
+        $this->assertLessThanOrEqual($height, $binaryTree->getHeight());
         $this->assertEquals($expectedCount, $binaryTree->count());
+
     }
 
     /**
